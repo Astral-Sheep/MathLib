@@ -1,0 +1,6 @@
+.idea/
+.vs/
+.cache/
+bin/
+temp/
+compile_commands.json
