@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Matrix.hpp"
 
 namespace Math
@@ -24,5 +26,5 @@ namespace Math
 	};
 }
 
-#include "MatrixNxN.cpp"
+#include "MatrixNxN.tpp"
 
