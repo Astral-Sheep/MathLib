@@ -21,6 +21,19 @@ namespace Math
 
 	}
 
+	Matrix3x3::Matrix(
+		const float x0, const float x1, const float x2,
+		const float x3, const float x4, const float x5,
+		const float x6, const float x7, const float x8
+	) : values{
+			Vector3(x0, x1, x2),
+			Vector3(x3, x4, x5),
+			Vector3(x6, x7, x8)
+		}
+	{
+
+	}
+
 	Matrix3x3::Matrix(const Vector3 columns[3])
 		: values{ columns[0], columns[1], columns[2] }
 	{

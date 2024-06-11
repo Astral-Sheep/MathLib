@@ -1,9 +1,13 @@
+/* #include "MatrixNxN.hpp" */
+
 namespace Math
 {
+#define SQUARE_MAT_TEMPLATE template<unsigned int N, typename T>
+#define SQUARE_MAT_GENERIC MatrixNxN<N, T>
+
 	// -- Constructors --
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T>::Matrix()
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC::Matrix()
 	{
 		for (int i = 0; i < N; i++)
 		{
@@ -11,8 +15,7 @@ namespace Math
 		}
 	}
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T>::Matrix(const T value)
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC::Matrix(const T value)
 	{
 		for (int i = 0; i < N; i++)
 		{
@@ -23,8 +26,7 @@ namespace Math
 		}
 	}
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T>::Matrix(const Vector<N, T, float> columns[N])
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC::Matrix(const Vector<N, T, float> columns[N])
 	{
 		for (int i = 0; i < N; i++)
 		{
@@ -32,8 +34,7 @@ namespace Math
 		}
 	}
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T>::Matrix(const T values[N * N])
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC::Matrix(const T values[N * N])
 	{
 		for (int i = 0; i < N; i++)
 		{
@@ -44,8 +45,7 @@ namespace Math
 		}
 	}
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T>::Matrix(const MatrixNxN<N, T> &matrix)
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC::Matrix(const MatrixNxN<N, T> &matrix)
 	{
 		for (int i = 0; i < N; i++)
 		{
@@ -55,22 +55,19 @@ namespace Math
 
 	// -- Accesses --
 
-	template<unsigned int N, typename T>
-	const Vector<N, T, float> &MatrixNxN<N, T>::operator[](const int index) const noexcept
+	SQUARE_MAT_TEMPLATE const Vector<N, T, float> &SQUARE_MAT_GENERIC::operator[](const int index) const noexcept
 	{
 		return values[index];
 	}
 
-	template<unsigned int N, typename T>
-	Vector<N, T, float> &MatrixNxN<N, T>::operator[](const int index) noexcept
+	SQUARE_MAT_TEMPLATE Vector<N, T, float> &SQUARE_MAT_GENERIC::operator[](const int index) noexcept
 	{
 		return values[index];
 	}
 
 	// -- Unary arithmetic operators --
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T> &MatrixNxN<N, T>::operator+=(const MatrixNxN<N, T> &matrix)
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC &SQUARE_MAT_GENERIC::operator+=(const SQUARE_MAT_GENERIC &matrix)
 	{
 		for (int i = 0; i < N; i++)
 		{
@@ -80,8 +77,7 @@ namespace Math
 		return *this;
 	}
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T> &MatrixNxN<N, T>::operator-=(const MatrixNxN<N, T> &matrix)
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC &SQUARE_MAT_GENERIC::operator-=(const SQUARE_MAT_GENERIC &matrix)
 	{
 		for (int i = 0; i < N; i++)
 		{
@@ -91,10 +87,9 @@ namespace Math
 		return *this;
 	}
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T> &MatrixNxN<N, T>::operator*=(const MatrixNxN<N, T> &matrix)
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC &SQUARE_MAT_GENERIC::operator*=(const SQUARE_MAT_GENERIC &matrix)
 	{
-		MatrixNxN<N, T> temp(*this);
+		SQUARE_MAT_GENERIC temp(*this);
 		Vector<N, T, float> column;
 
 		for (int i = 0; i < N; i++)
@@ -113,8 +108,7 @@ namespace Math
 		return *this;
 	}
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T> &MatrixNxN<N, T>::operator*=(const T scalar)
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC &SQUARE_MAT_GENERIC::operator*=(const T scalar)
 	{
 		for (int i = 0; i < N; i++)
 		{
@@ -124,14 +118,12 @@ namespace Math
 		return *this;
 	}
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T> &MatrixNxN<N, T>::operator/=(const MatrixNxN<N, T> &matrix)
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC &SQUARE_MAT_GENERIC::operator/=(const SQUARE_MAT_GENERIC &matrix)
 	{
 		return *this *= matrix.Inverted();
 	}
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T> &MatrixNxN<N, T>::operator/=(const T scalar)
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC &SQUARE_MAT_GENERIC::operator/=(const T scalar)
 	{
 		for (int i = 0; i < N; i++)
 		{
@@ -143,10 +135,9 @@ namespace Math
 
 	// -- Unary operators --
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T> MatrixNxN<N, T>::operator-() const
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC SQUARE_MAT_GENERIC::operator-() const
 	{
-		MatrixNxN<N, T> mat;
+		SQUARE_MAT_GENERIC mat;
 
 		for (int i = 0; i < N; i++)
 		{
@@ -158,10 +149,9 @@ namespace Math
 
 	// -- Binary operators --
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T> MatrixNxN<N, T>::operator+(const MatrixNxN<N, T> &matrix) const
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC SQUARE_MAT_GENERIC::operator+(const SQUARE_MAT_GENERIC &matrix) const
 	{
-		MatrixNxN<N, T> mat;
+		SQUARE_MAT_GENERIC mat;
 
 		for (int i = 0; i < N; i++)
 		{
@@ -171,10 +161,9 @@ namespace Math
 		return mat;
 	}
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T> MatrixNxN<N, T>::operator-(const MatrixNxN<N, T> &matrix) const
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC SQUARE_MAT_GENERIC::operator-(const SQUARE_MAT_GENERIC &matrix) const
 	{
-		MatrixNxN<N, T> mat;
+		SQUARE_MAT_GENERIC mat;
 
 		for (int i = 0; i < N; i++)
 		{
@@ -184,10 +173,9 @@ namespace Math
 		return mat;
 	}
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T> MatrixNxN<N, T>::operator*(const MatrixNxN<N, T> &matrix) const
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC SQUARE_MAT_GENERIC::operator*(const SQUARE_MAT_GENERIC &matrix) const
 	{
-		MatrixNxN<N, T> mat;
+		SQUARE_MAT_GENERIC mat;
 
 		for (int i = 0; i < N; i++)
 		{
@@ -203,9 +191,8 @@ namespace Math
 		return mat;
 	}
 
-	template<unsigned int N, typename T>
-	template<unsigned int S>
-	Matrix<S, N, T> MatrixNxN<N, T>::operator*(const Matrix<S, N, T> &matrix) const
+	SQUARE_MAT_TEMPLATE template<unsigned int S>
+	Matrix<S, N, T> SQUARE_MAT_GENERIC::operator*(const Matrix<S, N, T> &matrix) const
 	{
 		Matrix<S, N, T> mat;
 
@@ -223,10 +210,9 @@ namespace Math
 		return mat;
 	}
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T> MatrixNxN<N, T>::operator*(const T scalar) const
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC SQUARE_MAT_GENERIC::operator*(const T scalar) const
 	{
-		MatrixNxN<N, T> mat;
+		SQUARE_MAT_GENERIC mat;
 
 		for (int i = 0; i < N; i++)
 		{
@@ -236,16 +222,14 @@ namespace Math
 		return mat;
 	}
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T> MatrixNxN<N, T>::operator/(const MatrixNxN<N, T> &matrix) const
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC SQUARE_MAT_GENERIC::operator/(const SQUARE_MAT_GENERIC &matrix) const
 	{
 		return *this * matrix.Inverted();
 	}
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T> MatrixNxN<N, T>::operator/(const T scalar) const
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC SQUARE_MAT_GENERIC::operator/(const T scalar) const
 	{
-		MatrixNxN<N, T> mat;
+		SQUARE_MAT_GENERIC mat;
 
 		for (int i = 0; i < N; i++)
 		{
@@ -257,8 +241,7 @@ namespace Math
 
 	// -- Boolean operators --
 
-	template<unsigned int N, typename T>
-	bool MatrixNxN<N, T>::operator==(const MatrixNxN<N, T> &matrix) const
+	SQUARE_MAT_TEMPLATE bool SQUARE_MAT_GENERIC::operator==(const SQUARE_MAT_GENERIC &matrix) const
 	{
 		for (int i = 0; i < N; i++)
 		{
@@ -271,8 +254,7 @@ namespace Math
 		return true;
 	}
 
-	template<unsigned int N, typename T>
-	bool MatrixNxN<N, T>::operator!=(const MatrixNxN<N, T> &matrix) const
+	SQUARE_MAT_TEMPLATE bool SQUARE_MAT_GENERIC::operator!=(const SQUARE_MAT_GENERIC &matrix) const
 	{
 		for (int i = 0; i < N; i++)
 		{
@@ -287,8 +269,7 @@ namespace Math
 
 	// -- Stream operators --
 
-	template<unsigned int N, typename T>
-	std::ostream &operator<<(std::ostream &ostream, const MatrixNxN<N, T> &matrix)
+	SQUARE_MAT_TEMPLATE std::ostream &operator<<(std::ostream &ostream, const SQUARE_MAT_GENERIC &matrix)
 	{
 		for (int i = 0; i < N; i++)
 		{
@@ -303,10 +284,9 @@ namespace Math
 
 	// -- Getters --
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T> MatrixNxN<N, T>::GetAdjugate() const
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC SQUARE_MAT_GENERIC::GetAdjugate() const
 	{
-		MatrixNxN<N, T> mat;
+		SQUARE_MAT_GENERIC mat;
 
 		for (int i = 0; i < N; i++)
 		{
@@ -344,10 +324,9 @@ namespace Math
 		return mat;
 	}
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T> MatrixNxN<N, T>::GetCofactor() const
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC SQUARE_MAT_GENERIC::GetCofactor() const
 	{
-		MatrixNxN<N, T> mat;
+		SQUARE_MAT_GENERIC mat;
 
 		for (int i = 0; i < N; i++)
 		{
@@ -385,8 +364,7 @@ namespace Math
 		return mat;
 	}
 
-	template<unsigned int N, typename T>
-	T MatrixNxN<N, T>::GetDeterminant() const
+	SQUARE_MAT_TEMPLATE T SQUARE_MAT_GENERIC::GetDeterminant() const
 	{
 		if (N == 0)
 		{
@@ -443,17 +421,15 @@ namespace Math
 		return determinant;
 	}
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T> MatrixNxN<N, T>::Inverted() const
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC SQUARE_MAT_GENERIC::Inverted() const
 	{
 		return GetAdjugate() * (T(1) / GetDeterminant());
 
 	}
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T> MatrixNxN<N, T>::Transposed() const
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC SQUARE_MAT_GENERIC::Transposed() const
 	{
-		MatrixNxN<N, T> transposed;
+		SQUARE_MAT_GENERIC transposed;
 
 		for (int i = 0; i < N; i++)
 		{
@@ -468,17 +444,15 @@ namespace Math
 
 	// -- Transformations --
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T> &MatrixNxN<N, T>::Invert()
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC &SQUARE_MAT_GENERIC::Invert()
 	{
 		*this = GetAdjugate() * (T(1) / GetDeterminant());
 		return *this;
 	}
 
-	template<unsigned int N, typename T>
-	MatrixNxN<N, T> &MatrixNxN<N, T>::Transpose()
+	SQUARE_MAT_TEMPLATE SQUARE_MAT_GENERIC &SQUARE_MAT_GENERIC::Transpose()
 	{
-		const MatrixNxN<N, T> temp(*this);
+		const SQUARE_MAT_GENERIC temp(*this);
 
 		for (int i = 0; i < N; i++)
 		{
@@ -490,4 +464,7 @@ namespace Math
 
 		return *this;
 	}
+
+#undef SQUARE_MAT_TEMPLATE
+#undef SQUARE_MAT_GENERIC
 }

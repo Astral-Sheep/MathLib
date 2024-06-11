@@ -1,12 +1,13 @@
 #pragma once
 
+#include "Core.h"
 #include "Vector.hpp"
 
 namespace Math
 {
 #define DECLARE_VEC4(Type, Precision)\
 	template<>\
-	struct Vector<4, Type, Precision>\
+	struct MATHLIB Vector<4, Type, Precision>\
 	{\
 		VECTOR_BODY(4, Type, Precision)\
 	\
@@ -34,5 +35,7 @@ namespace Math
 	DECLARE_VEC4(int, float);
 	DECLARE_VEC4(float, float);
 	DECLARE_VEC4(double, double);
+
+#undef DECLARE_VEC4
 }
 

@@ -6,12 +6,7 @@ namespace Math
 	// -- Constructors --
 
 	Matrix4x4::Matrix()
-		: values{
-			Vector4(0.0f, 0.0f, 0.0f, 0.0f),
-			Vector4(0.0f, 0.0f, 0.0f, 0.0f),
-			Vector4(0.0f, 0.0f, 0.0f, 0.0f),
-			Vector4(0.0f, 0.0f, 0.0f, 0.0f)
-		}
+		: values{ Vector4(), Vector4(), Vector4(), Vector4() }
 	{
 
 	}
@@ -56,6 +51,12 @@ namespace Math
 			Vector4(values[8], values[9], values[10], values[11]),
 			Vector4(values[12], values[13], values[14], values[15])
 		}
+	{
+
+	}
+
+	Matrix4x4::Matrix(const Vector4 &x0, const Vector4 &x1, const Vector4 &x2, const Vector4 &x3)
+		: values{ x0, x1, x2, x3 }
 	{
 
 	}

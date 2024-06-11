@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core.h"
 #include "Vector.hpp"
 
 namespace Math
@@ -16,7 +17,7 @@ namespace Math
 
 #define DECLARE_VEC3(Type, Precision)\
 	template<>\
-	struct Vector<3, Type, Precision>\
+	struct MATHLIB Vector<3, Type, Precision>\
 	{\
 		VECTOR_BODY(3, Type, Precision)\
 	\
@@ -87,5 +88,7 @@ namespace Math
 	DECLARE_VEC3(int, float);
 	DECLARE_VEC3(float, float);
 	DECLARE_VEC3(double, double);
+
+#undef DECLARE_VEC3
 }
 

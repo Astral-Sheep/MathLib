@@ -464,4 +464,7 @@ namespace Math
 
 		return *this;
 	}
+
+#undef SQUARE_MAT_TEMPLATE
+#undef SQUARE_MAT_GENERIC
 }

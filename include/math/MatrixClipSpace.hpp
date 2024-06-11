@@ -56,7 +56,7 @@ namespace Math
 		assert(height > T(0));
 		assert(fov > T(0));
 
-		const T h = cos(T(0.5) * fov) / sin(T(0.5) * fov);
+		const T h = std::cos(T(0.5) * fov) / std::sin(T(0.5) * fov);
 		const T w = h * height / width;
 
 		Matrix<4, 4, T> res(T(0));
@@ -71,7 +71,7 @@ namespace Math
 	template<typename T>
 	Matrix<4, 4, T> InfinitePerspective(const T fovY, const T aspect, const T near)
 	{
-		const T range = tan(fovY / T(2)) * near;
+		const T range = std::tan(fovY / T(2)) * near;
 		const T left = -range * aspect;
 		const T right = range * aspect;
 		const T bottom = -range;

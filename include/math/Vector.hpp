@@ -394,11 +394,9 @@ namespace Math
 	typedef Vector<2, float, float> Vector2;
 	typedef Vector<2, int, float> Vector2I;
 	typedef Vector<2, double, double> Vector2D;
-
 	typedef Vector<3, float, float> Vector3;
 	typedef Vector<3, int, float> Vector3I;
 	typedef Vector<3, double, double> Vector3D;
-
 	typedef Vector<4, float, float> Vector4;
 	typedef Vector<4, int, float> Vector4I;
 	typedef Vector<4, double, double> Vector4D;

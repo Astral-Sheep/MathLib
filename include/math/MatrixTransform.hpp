@@ -17,11 +17,11 @@ namespace Math
 	template<typename T>
 	Matrix<4, 4, T> Rotate(const Matrix<4, 4, T> &mat, const T angle, const Vector<3, T, float> &vec)
 	{
-		const T cos = cos(angle);
-		const T sin = sin(angle);
+		const T cos = std::cos(angle);
+		const T sin = std::sin(angle);
 
 		Vector<3, T, float> axis = vec.Normalized();
-		Vector<3, T, float> temp((T(1) - cos) * axis);
+		Vector<3, T, float> temp(axis * (T(1) - cos));
 
 		Matrix<4, 4, T> rotate;
 		rotate[0][0] = cos + temp[0] * axis[0];

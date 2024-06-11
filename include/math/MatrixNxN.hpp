@@ -26,5 +26,5 @@ namespace Math
 	};
 }
 
-#include "MatrixNxN.tpp"
+#include "MatrixNxN.cpp"
 

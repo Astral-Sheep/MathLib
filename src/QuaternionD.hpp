@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core.h"
 #include "Vector3.hpp"
 #include <ostream>
 
@@ -7,7 +8,7 @@ namespace Math
 {
 	struct Quaternion;
 
-	struct QuaternionD
+	struct MATHLIB QuaternionD
 	{
 		double x;
 		double y;

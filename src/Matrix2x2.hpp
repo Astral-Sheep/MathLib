@@ -1,11 +1,12 @@
 #pragma once
 
+#include "Core.h"
 #include "Matrix.hpp"
 
 namespace Math
 {
 	template<>
-	struct Matrix<2, 2, float>
+	struct MATHLIB Matrix<2, 2, float>
 	{
 		MATRIX_BODY(2, 2, float, float)
 		SQUARE_MAT_FUNCTIONS(2, float);
