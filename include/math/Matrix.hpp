@@ -333,7 +333,7 @@ namespace Math
 		/* -- Getters -- */\
 		Mat##R##x##C Transposed() const;
 
-#define SQUARE_MAT_FUNCTIONS(Size, Type)\
+#define SQUARE_MAT_METHODS(Size, Type)\
 		/* -- Unary arithmetic operators -- */\
 		Mat##Size##x##Size &operator*=(const Mat##Size##x##Size &matrix);\
 		Mat##Size##x##Size &operator/=(const Mat##Size##x##Size &matrix);\

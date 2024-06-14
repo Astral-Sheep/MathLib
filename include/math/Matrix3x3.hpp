@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core.h"
+#include "Vector3.hpp"
 #include "Matrix.hpp"
 
 namespace Math
@@ -9,7 +10,7 @@ namespace Math
 	struct MATHLIB Matrix<3, 3, float>
 	{
 		MATRIX_BODY(3, 3, float, float)
-		SQUARE_MAT_FUNCTIONS(3, float)
+		SQUARE_MAT_METHODS(3, float)
 
 	public:
 		// -- Constructors --

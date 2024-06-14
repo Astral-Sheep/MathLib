@@ -8,7 +8,7 @@ namespace Math
 	struct Matrix<N, N, T>
 	{
 		MATRIX_BODY(N, N, T, float)
-		SQUARE_MAT_FUNCTIONS(N, T)
+		SQUARE_MAT_METHODS(N, T)
 
 	public:
 		static MatrixNxN<N, T> Identity()
@@ -26,5 +26,5 @@ namespace Math
 	};
 }
 
-#include "MatrixNxN.cpp"
+#include "MatrixNxN.tpp"
 

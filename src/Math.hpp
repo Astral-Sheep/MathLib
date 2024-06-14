@@ -1,100 +1,120 @@
 #pragma once
 
-#include "Core.h"
+#include <cmath>
 
 namespace Math
 {
 	constexpr float PI = 3.1415926535f;
+	constexpr float TAU = 6.2831853071f;
 	constexpr float RAD2DEG = 180.0f / PI;
 	constexpr float DEG2RAD = PI / 180.0f;
 
 	/*
-	 *	Return a value between lhs and rhs. a if a >= lhs and a <= rhs, lhs if a < lhs, rhs if a > rhs.
+	 * Return the absolute value of v
 	 */
-	int MATHLIB Clamp(const int a, const int lhs, const int rhs);
+	template<typename T>
+	T Abs(const T &v)
+	{
+		return v >= 0 ? v : -v;
+	}
 
 	/*
-	 *	Return a value between lhs and rhs. a if a >= lhs and a <= rhs, lhs if a < lhs, rhs if a > rhs.
+	 *	Return a value between low and high. v if v >= low and v <= high, low if v < low, high if v > high.
 	 */
-	float MATHLIB Clamp(const float a, const float lhs, const float rhs);
+	template<typename T>
+	T Clamp(const T &v, T low, T high)
+	{
+		if (high < low)
+		{
+			low += high;
+			high = low - high;
+			low -= high;
+		}
+
+		return low <= v ? low : v <= high ? v : high;
+	}
 
 	/*
-	 *	Return a value between lhs and rhs. a if a >= lhs and a <= rhs, lhs if a < lhs, rhs if a > rhs.
+	 *	Return v clamped between 0 and 1.
 	 */
-	double MATHLIB Clamp(const double a, const double lhs, const double rhs);
+	template<typename T>
+	T Clamp01(const T &v)
+	{
+		return T(0) <= v ? T(0) : v <= T(1) ? v : T(1);
+	}
 
 	/*
-	 *	Return a clamped between 0 and 1.
+	 * Return v rounded towards positive infinity
 	 */
-	int MATHLIB Clamp01(const int a);
+	template<typename T>
+	T Ceil(const T &v)
+	{
+		return std::ceil(v);
+	}
 
 	/*
-	 *	Return a clamped between 0 and 1.
+	 * Return v rounded towards negative infinity
 	 */
-	float MATHLIB Clamp01(const float a);
+	template<typename T>
+	T Floor(const T &v)
+	{
+		return std::floor(v);
+	}
 
 	/*
-	 *	Return a clamped between 0 and 1.
+	 * Return v without its decimal part
 	 */
-	double MATHLIB Clamp01(const double a);
+	template<typename T>
+	T Truncate(const T &v)
+	{
+		return (T)(long long)v;
+	}
+
+	/*
+	 * Return the closest integer to v
+	 */
+	template<typename T>
+	T Round(const T &v)
+	{
+		return std::round(v);
+	}
 
 	/*
 	 *	Return the euclidian remainder of a / b.
 	 *	Unlike the % operator, this function only returns positive values.
 	 */
-	int MATHLIB EuclidianRemainder(const int a, const int b);
+	template<typename T>
+	T EuclidianRemainder(const T &a, const T &b)
+	{
+		return a - std::floor(a / b) * b;
+	}
 
 	/*
-	 *	Return the euclidian remainder of a / b.
-	 *	Unlike the % operator, this function only returns positive values.
+	 *	Return if a is approximately equal to b by a delta of threshold.
 	 */
-	float MATHLIB EuclidianRemainder(const float a, const float b);
-
-	/*
-	 *	Return the euclidian remainder of a / b.
-	 *	Unlike the % operator, this function only returns positive values.
-	 */
-	double MATHLIB EuclidianRemainder(const double a, const double b);
-
-	/*
-	 *	Return if a is approximately equal to be by a delta of threshold.
-	 */
-	bool MATHLIB EqualApprox(const float a, const float b, const float threshold) noexcept;
-
-	/*
-	 *	Return if a is approximately equal to be by a delta of threshold.
-	 */
-	bool MATHLIB EqualApprox(const double a, const double b, const double threshold) noexcept;
+	template<typename T>
+	bool EqualApprox(const T &a, const T &b, const T &threshold) noexcept
+	{
+		return Abs(a - b) <= threshold;
+	}
 
 	/*
 	 *	Linear interpolation between a and b by a ratio t.
 	 */
-	int MATHLIB Lerp(const int from, const int to, const float t);
-
-	/*
-	 *	Linear interpolation between a and b by a ratio t.
-	 */
-	float MATHLIB Lerp(const float from, const float to, const float t);
-
-	/*
-	 *	Linear interpolation between a and b by a ratio t.
-	 */
-	double MATHLIB Lerp(const double from, const double to, const float t);
+	template<typename T>
+	T Lerp(const T &from, const T &to, const T &t)
+	{
+		return from + (to - from) * t;
+	}
 
 	/*
 	 *	Linear interpolation between a and b by a ratio t clamped between 0 and 1
 	 */
-	int MATHLIB LerpClamped(const int from, const int to, const float t);
-
-	/*
-	 *	Linear interpolation between a and b by a ratio t clamped between 0 and 1
-	 */
-	float MATHLIB LerpClamped(const float from, const float to, const float t);
-
-	/*
-	 *	Linear interpolation between a and b by a ratio t clamped between 0 and 1
-	 */
-	double MATHLIB LerpClamped(const double from, const double to, const float t);
+	template<typename T>
+	T LerpClamped(const T &from, const T &to, const T &t)
+	{
+		return from + (to - from) * Clamp01(t);
+	}
 
 	/*
 	 *	Return the sign of the given value.

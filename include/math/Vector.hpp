@@ -224,6 +224,21 @@ namespace Math
 			return true;
 		}
 
+		// -- Convertion operators --
+
+		template<typename U, typename Q>
+		operator Vector<S, U, Q>() const
+		{
+			Vector<S, U, Q> res;
+
+			for (int i = 0; i < S; i++)
+			{
+				res[i] = (U)fields[i];
+			}
+
+			return res;
+		}
+
 		// -- Stream operators --
 
 		friend std::ostream &operator<<(std::ostream &ostream, const Vec &vector)
@@ -391,74 +406,13 @@ namespace Math
 		}
 	};
 
-	typedef Vector<2, float, float> Vector2;
-	typedef Vector<2, int, float> Vector2I;
-	typedef Vector<2, double, double> Vector2D;
-	typedef Vector<3, float, float> Vector3;
-	typedef Vector<3, int, float> Vector3I;
-	typedef Vector<3, double, double> Vector3D;
-	typedef Vector<4, float, float> Vector4;
-	typedef Vector<4, int, float> Vector4I;
-	typedef Vector<4, double, double> Vector4D;
+	template<unsigned int S>
+	using VectorI = Vector<S, int, float>;
 
-#define VECTOR_BODY(S, T, P)\
-	private:\
-		typedef Vector<S, T, P> Vec##S;\
-	\
-	public:\
-		/* -- Constructors -- */\
-		Vector<S, T, P>();\
-		Vector<S, T, P>(const T value);\
-		Vector<S, T, P>(const T fields[S]);\
-		Vector<S, T, P>(const Vec##S &vector);\
-		\
-		/* -- Accesses -- */\
-		const T &operator[](const int index) const noexcept;\
-		T &operator[](const int index) noexcept;\
-		\
-		/* -- Unary arithmetic operators -- */\
-		Vec##S &operator+=(const Vec##S &vector);\
-		Vec##S &operator-=(const Vec##S &vector);\
-		Vec##S &operator*=(const Vec##S &vector);\
-		Vec##S &operator*=(const T scalar);\
-		Vec##S &operator/=(const Vec##S &vector);\
-		Vec##S &operator/=(const T scalar);\
-		\
-		/* -- Unary operators -- */\
-		Vec##S operator-() const;\
-		\
-		/* -- Binary operators -- */\
-		Vec##S operator+(const Vec##S &vector) const;\
-		Vec##S operator-(const Vec##S &vector) const;\
-		Vec##S operator*(const Vec##S &vector) const;\
-		Vec##S operator*(const T scalar) const;\
-		Vec##S operator/(const Vec##S &vector) const;\
-		Vec##S operator/(const T scalar) const;\
-		\
-		/* -- Boolean operators -- */\
-		bool operator==(const Vec##S &vector) const;\
-		bool operator!=(const Vec##S &vector) const;\
-		\
-		/* -- Stream operators -- */\
-		friend std::ostream &operator<<(std::ostream &ostream, const Vec##S &vector);\
-		\
-		/* -- Static methods -- */\
-		static Vec##S Lerp(const Vec##S &from, const Vec##S &to, const P t);\
-		static Vec##S LerpClamped(const Vec##S &from, const Vec##S &to, const P t);\
-		\
-		/* -- Getters -- */\
-		Vec##S Abs() const;\
-		P Distance(const Vec##S &vector) const;\
-		P DistanceSquared(const Vec##S &vector) const;\
-		P Dot(const Vec##S &vector) const;\
-		bool IsNormalized() const;\
-		P Length() const;\
-		P LengthSquared() const;\
-		Vec##S Normalized() const;\
-		Vec##S Sign() const;\
-		size_t SizeOfField() const;\
-		\
-		/* -- Transformations -- */\
-		Vec##S &Normalize();
+	template<unsigned int S>
+	using VectorF = Vector<S, float, float>;
+
+	template<unsigned int S>
+	using VectorD = Vector<S, double, double>;
 }
 
