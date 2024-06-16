@@ -17,9 +17,10 @@ namespace Math
 
 		// -- Constructors --
 
-		Vector<2, T, P>() : x(T(0)), y(T(0)) {}
+		Vector<2, T, P>()
+			: x(T(0)), y(T(0)) {}
 
-		Vector<2, T, P>(const T val)
+		explicit Vector<2, T, P>(const T val)
 			: x(val), y(val) {}
 
 		Vector<2, T, P>(const T x, const T y)
@@ -35,12 +36,12 @@ namespace Math
 
 		inline const T &operator[](const int index) const noexcept
 		{
-			return *(&x + index * sizeof(T));
+			return *(&x + index);
 		}
 
 		inline T &operator[](const int index) noexcept
 		{
-			return *(&x + index * sizeof(T));
+			return *(&x + index);
 		}
 
 		// -- Unary arithmetic operators --

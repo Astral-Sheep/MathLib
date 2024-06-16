@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Math.hpp"
 #include <ostream>
 
 namespace Math
@@ -48,12 +49,12 @@ namespace Math
 
 		// -- Accesses --
 
-		const T &operator[](const int index) const noexcept
+		inline const T &operator[](const int index) const noexcept
 		{
 			return fields[index];
 		}
 
-		T &operator[](const int index) noexcept
+		inline T &operator[](const int index) noexcept
 		{
 			return fields[index];
 		}
@@ -66,6 +67,8 @@ namespace Math
 			{
 				fields[i] += vector[i];
 			}
+
+			return *this;
 		}
 
 		Vec &operator-=(const Vec &vector)
@@ -74,6 +77,8 @@ namespace Math
 			{
 				fields[i] -= vector[i];
 			}
+
+			return *this;
 		}
 
 		Vec &operator*=(const Vec &vector)
@@ -82,6 +87,8 @@ namespace Math
 			{
 				fields[i] *= vector[i];
 			}
+
+			return *this;
 		}
 
 		Vec &operator*=(const T scalar)
@@ -90,6 +97,8 @@ namespace Math
 			{
 				fields[i] *= scalar;
 			}
+
+			return *this;
 		}
 
 		Vec &operator/=(const Vec &vector)
@@ -98,6 +107,8 @@ namespace Math
 			{
 				fields[i] /= vector[i];
 			}
+
+			return *this;
 		}
 
 		Vec &operator/=(const T scalar)
@@ -106,9 +117,16 @@ namespace Math
 			{
 				fields[i] /= scalar;
 			}
+
+			return *this;
 		}
 
 		// -- Unary operators --
+
+		Vec operator+() const
+		{
+			return *this;
+		}
 
 		Vec operator-() const
 		{
@@ -116,7 +134,7 @@ namespace Math
 
 			for (int i = 0; i < S; i++)
 			{
-				res[i] = fields[i];
+				res[i] = -fields[i];
 			}
 
 			return res;
@@ -265,7 +283,7 @@ namespace Math
 
 		static Vec LerpClamped(const Vec &from, const Vec &to, const float t)
 		{
-			return from + (to - from) * Clamp01(t);
+			return from + (to - from) * Math::Clamp01(t);
 		}
 
 		// -- Getters --
@@ -276,7 +294,7 @@ namespace Math
 
 			for (int i = 0; i < S; i++)
 			{
-				res[i] = Abs(fields[i]);
+				res[i] = Math::Abs(fields[i]);
 			}
 
 			return res;
@@ -373,7 +391,7 @@ namespace Math
 
 			for (int i = 0; i < S; i++)
 			{
-				res[i] = Sign(fields[i]);
+				res[i] = Math::Sign(fields[i]);
 			}
 
 			return res;

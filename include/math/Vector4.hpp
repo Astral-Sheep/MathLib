@@ -22,7 +22,7 @@ namespace Math
 		Vector<4, T, P>()
 			: x(T(0)), y(T(0)), z(T(0)), w(T(0)) {}
 
-		Vector<4, T, P>(const T val)
+		explicit Vector<4, T, P>(const T val)
 			: x(val), y(val), z(val), w(val) {}
 
 		Vector <4, T, P>(const T x, const T y, const T z, const T w)
@@ -36,14 +36,14 @@ namespace Math
 
 		// -- Accesses --
 
-		const T &operator[](const int index) const noexcept
+		inline const T &operator[](const int index) const noexcept
 		{
-			return *(&x + index * sizeof(T));
+			return *(&x + index);
 		}
 
-		T &operator[](const int index) noexcept
+		inline T &operator[](const int index) noexcept
 		{
-			return *(&x + index * sizeof(T));
+			return *(&x + index);
 		}
 
 		// -- Unary arithmetic operators --
@@ -170,7 +170,7 @@ namespace Math
 
 		friend std::ostream &operator<<(std::ostream &ostream, const Vec &vec)
 		{
-			ostream << "(" << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w << ")";
+			return ostream << "(" << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w << ")";
 		}
 
 		// -- Getters --
