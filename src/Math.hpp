@@ -13,43 +13,43 @@ namespace Math
 	 * Return the absolute value of v
 	 */
 	template<typename T>
-	T Abs(const T &v)
+	T Abs(const T &pVal)
 	{
-		return v >= 0 ? v : -v;
+		return pVal >= 0 ? pVal : -pVal;
 	}
 
 	/*
 	 *	Return a value between low and high. v if v >= low and v <= high, low if v < low, high if v > high.
 	 */
 	template<typename T>
-	T Clamp(const T &v, T low, T high)
+	T Clamp(const T &pVal, T pLow, T pHigh)
 	{
-		if (high < low)
+		if (pHigh < pLow)
 		{
-			low += high;
-			high = low - high;
-			low -= high;
+			pLow += pHigh;
+			pHigh = pLow - pHigh;
+			pLow -= pHigh;
 		}
 
-		return low <= v ? low : v <= high ? v : high;
+		return pLow <= pVal ? pLow : pVal <= pHigh ? pVal : pHigh;
 	}
 
 	/*
 	 *	Return v clamped between 0 and 1.
 	 */
 	template<typename T>
-	T Clamp01(const T &v)
+	T Clamp01(const T &pVal)
 	{
-		return T(0) <= v ? T(0) : v <= T(1) ? v : T(1);
+		return T(0) <= pVal ? T(0) : pVal <= T(1) ? pVal : T(1);
 	}
 
 	/*
 	 * Return v rounded towards positive infinity
 	 */
 	template<typename T>
-	T Ceil(const T &v)
+	T Ceil(const T &pVal)
 	{
-		return std::ceil(v);
+		return std::ceil(pVal);
 	}
 
 	/*
@@ -65,18 +65,18 @@ namespace Math
 	 * Return v without its decimal part
 	 */
 	template<typename T>
-	T Truncate(const T &v)
+	T Truncate(const T &pVal)
 	{
-		return (T)(long long)v;
+		return (T)(long long)pVal;
 	}
 
 	/*
 	 * Return the closest integer to v
 	 */
 	template<typename T>
-	T Round(const T &v)
+	T Round(const T &pVal)
 	{
-		return std::round(v);
+		return std::round(pVal);
 	}
 
 	/*
@@ -84,45 +84,45 @@ namespace Math
 	 *	Unlike the % operator, this function only returns positive values.
 	 */
 	template<typename T>
-	T EuclidianRemainder(const T &a, const T &b)
+	T EuclidianRemainder(const T &pLhs, const T &pRhs)
 	{
-		return a - std::floor(a / b) * b;
+		return pLhs - std::floor(pLhs / pRhs) * pRhs;
 	}
 
 	/*
 	 *	Return if a is approximately equal to b by a delta of threshold.
 	 */
 	template<typename T>
-	bool EqualApprox(const T &a, const T &b, const T &threshold) noexcept
+	bool EqualApprox(const T &pLhs, const T &pRhs, const T &pThreshold) noexcept
 	{
-		return Abs(a - b) <= threshold;
+		return Abs(pLhs - pRhs) <= pThreshold;
 	}
 
 	/*
 	 *	Linear interpolation between a and b by a ratio t.
 	 */
 	template<typename T>
-	T Lerp(const T &from, const T &to, const T &t)
+	T Lerp(const T &pFrom, const T &pTo, const T &pTime)
 	{
-		return from + (to - from) * t;
+		return pFrom + (pTo - pFrom) * pTime;
 	}
 
 	/*
 	 *	Linear interpolation between a and b by a ratio t clamped between 0 and 1
 	 */
 	template<typename T>
-	T LerpClamped(const T &from, const T &to, const T &t)
+	T LerpClamped(const T &pFrom, const T &pTo, const T &pTime)
 	{
-		return from + (to - from) * Clamp01(t);
+		return pFrom + (pTo - pFrom) * Clamp01(pTime);
 	}
 
 	/*
 	 *	Return the sign of the given value.
 	 */
 	template<typename T>
-	T Sign(const T &value)
+	T Sign(const T &pVal)
 	{
-		return (T(0) < value) - (value < T(0));
+		return (T(0) < pVal) - (pVal < T(0));
 	}
 }
 

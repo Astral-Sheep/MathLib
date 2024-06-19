@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vector3.hpp"
+#include "Vector.hpp"
 #include <ostream>
 
 namespace Math
@@ -8,6 +8,9 @@ namespace Math
 	template<typename T, typename P>
 	struct QuaternionT
 	{
+	private:
+		typedef QuaternionT<T, P> Quat;
+	public:
 		T w;
 		T x;
 		T y;
@@ -15,22 +18,22 @@ namespace Math
 
 		// -- Constructors --
 
-		QuaternionT() : w(T(0)), x(T(0)), y(T(0)), z(T(0)) {}
+		QuaternionT<T, P>() : w(T(0)), x(T(0)), y(T(0)), z(T(0)) {}
 
-		QuaternionT(const T w, const T x, const T y, const T z)
-			: w(w), x(x), y(y), z(z) {}
+		QuaternionT<T, P>(const T pW, const T pX, const T pY, const T pZ)
+			: w(pW), x(pX), y(pY), z(pZ) {}
 
-		QuaternionT(const Vector<3, T, P> &vec, const T scalar)
-			: w(scalar), x(vec.x), y(vec.y), z(vec.z) {}
+		QuaternionT<T, P>(const Vector<3, T, P> &pVec, const T pScalar)
+			: w(pScalar), x(pVec.x), y(pVec.y), z(pVec.z) {}
 
-		QuaternionT(const QuaternionT &quat)
-			: w(quat.w), x(quat.x), y(quat.y), z(quat.z) {}
+		QuaternionT<T, P>(const Quat &pQuat)
+			: w(pQuat.w), x(pQuat.x), y(pQuat.y), z(pQuat.z) {}
 
 		// -- Getters --
 
-		inline QuaternionT GetConjugate() const
+		inline Quat GetConjugate() const
 		{
-			return QuaternionT(w, -x, -y, -z);
+			return Quat(w, -x, -y, -z);
 		}
 
 		inline T GetScalar() const
@@ -40,11 +43,11 @@ namespace Math
 
 		inline Vector<3, T, P> GetVector() const
 		{
-			Vector<3, T, P> res;
-			res[0] = x;
-			res[1] = y;
-			res[2] = z;
-			return res;
+			Vector<3, T, P> lRes;
+			lRes[0] = x;
+			lRes[1] = y;
+			lRes[2] = z;
+			return lRes;
 		}
 
 		inline P Magnitude() const
@@ -57,42 +60,42 @@ namespace Math
 			return w * w + x * x + y * y + z * z;
 		}
 
-		QuaternionT Inversed() const
+		Quat Inversed() const
 		{
-			const T sqrlength = MagnitudeSquared();
-			return Quaternion(w / sqrlength, -x / sqrlength, -y / sqrlength, -z / sqrlength);
+			const T lSqrlength = MagnitudeSquared();
+			return Quat(w / lSqrlength, -x / lSqrlength, -y / lSqrlength, -z / lSqrlength);
 		}
 
 		Vector<3, T, P> ToEulerAngles() const
 		{
-			const T pole = x * y + z * w;
-			Vector<3, T, P> res;
+			const T lPole = x * y + z * w;
+			Vector<3, T, P> lRes;
 
-			if (pole == T(0.5))
+			if (lPole == T(0.5))
 			{
-				res[0] = T(2) * std::atan2(x, w);
-				res[1] = std::asin(T(2) * (w * y - x * z));
-				res[2] = T(0);
-				return res;
+				lRes[0] = T(2) * std::atan2(x, w);
+				lRes[1] = std::asin(T(2) * (w * y - x * z));
+				lRes[2] = T(0);
+				return lRes;
 			}
 
-			if (pole == T(-0.5))
+			if (lPole == T(-0.5))
 			{
-				res[0] = T(-2) * std::atan2(x, w);
-				res[1] = std::asin(T(2) * (w * y - x * z));
-				res[2] = T(0);
-				return res;
+				lRes[0] = T(-2) * std::atan2(x, w);
+				lRes[1] = std::asin(T(2) * (w * y - x * z));
+				lRes[2] = T(0);
+				return lRes;
 			}
 
-			res[0] = std::atan2(T(2) * (w * x + y * z), T(1) - T(2) * (x * x + y * y));
-			res[1] = std::asin(T(2) * (w * y - x * z));
-			res[2] = std::atan2(T(2) * (w * z + x * y), T(1) - T(2) * (y * y + z * z));
-			return res;
+			lRes[0] = std::atan2(T(2) * (w * x + y * z), T(1) - T(2) * (x * x + y * y));
+			lRes[1] = std::asin(T(2) * (w * y - x * z));
+			lRes[2] = std::atan2(T(2) * (w * z + x * y), T(1) - T(2) * (y * y + z * z));
+			return lRes;
 		}
 
 		// -- Transformations --
 
-		inline QuaternionT &Conjugate()
+		inline Quat &Conjugate()
 		{
 			x = -x;
 			y = -y;
@@ -100,161 +103,161 @@ namespace Math
 			return *this;
 		}
 
-		QuaternionT &Inverse()
+		Quat &Inverse()
 		{
-			const T sqrlength = MagnitudeSquared();
-			w /= sqrlength;
-			x = -x / sqrlength;
-			y = -y / sqrlength;
-			z = -z / sqrlength;
+			const T lSqrlength = MagnitudeSquared();
+			w /= lSqrlength;
+			x = -x / lSqrlength;
+			y = -y / lSqrlength;
+			z = -z / lSqrlength;
 			return *this;
 		}
 
 		// -- Unary arithmetic operators --
 
-		inline QuaternionT &operator+=(const QuaternionT &quat)
+		inline Quat &operator+=(const Quat &pQuat)
 		{
-			w += quat.w;
-			x += quat.x;
-			y += quat.y;
-			z += quat.z;
+			w += pQuat.w;
+			x += pQuat.x;
+			y += pQuat.y;
+			z += pQuat.z;
 			return *this;
 		}
 
-		inline QuaternionT &operator-=(const QuaternionT &quat)
+		inline Quat &operator-=(const Quat &pQuat)
 		{
-			w -= quat.w;
-			x -= quat.x;
-			y -= quat.y;
-			z -= quat.z;
+			w -= pQuat.w;
+			x -= pQuat.x;
+			y -= pQuat.y;
+			z -= pQuat.z;
 			return *this;
 		}
 
-		QuaternionT &operator*=(const QuaternionT &quat)
+		Quat &operator*=(const Quat &pQuat)
 		{
-			const T temp_x = x;
-			const T temp_y = y;
-			const T temp_z = z;
-			const T temp_w = w;
+			const T lTempX = x;
+			const T lTempY = y;
+			const T lTempZ = z;
+			const T lTempW = w;
 
-			w = temp_w * quat.w - temp_x * quat.x - temp_y * quat.y - temp_z * quat.z;
-			x = temp_w * quat.x + temp_x * quat.w + temp_y * quat.z - temp_z * quat.y;
-			y = temp_w * quat.y - temp_x * quat.z + temp_y * quat.w + temp_z * quat.x;
-			z = temp_w * quat.z + temp_x * quat.y - temp_y * quat.x + temp_z * quat.w;
+			w = lTempW * pQuat.w - lTempX * pQuat.x - lTempY * pQuat.y - lTempZ * pQuat.z;
+			x = lTempW * pQuat.x + lTempX * pQuat.w + lTempY * pQuat.z - lTempZ * pQuat.y;
+			y = lTempW * pQuat.y - lTempX * pQuat.z + lTempY * pQuat.w + lTempZ * pQuat.x;
+			z = lTempW * pQuat.z + lTempX * pQuat.y - lTempY * pQuat.x + lTempZ * pQuat.w;
 			return *this;
 		}
 
-		inline QuaternionT &operator*=(const T val)
+		inline Quat &operator*=(const T pVal)
 		{
-			w *= val;
-			x *= val;
-			y *= val;
-			z *= val;
+			w *= pVal;
+			x *= pVal;
+			y *= pVal;
+			z *= pVal;
 			return *this;
 		}
 
-		inline QuaternionT &operator/=(const QuaternionT &quat)
+		inline Quat &operator/=(const Quat &pQuat)
 		{
-			return *this *= quat.Inversed();
+			return *this *= pQuat.Inversed();
 		}
 
-		inline QuaternionT &operator/=(const T val)
+		inline Quat &operator/=(const T pVal)
 		{
-			w /= val;
-			x /= val;
-			y /= val;
-			z /= val;
+			w /= pVal;
+			x /= pVal;
+			y /= pVal;
+			z /= pVal;
 			return *this;
 		}
 
 		// -- Unary operators --
 
-		inline QuaternionT operator+() const
+		inline Quat operator+() const
 		{
 			return *this;
 		}
 
-		inline QuaternionT operator-() const
+		inline Quat operator-() const
 		{
-			return QuaternionT(-w, -x, -y, -z);
+			return Quat(-w, -x, -y, -z);
 		}
 
 		// -- Binary operators --
 
-		inline QuaternionT operator+(const QuaternionT &quat) const
+		inline Quat operator+(const Quat &pQuat) const
 		{
-			return QuaternionT(
-				w + quat.w,
-				x + quat.x,
-				y + quat.y,
-				z + quat.z
+			return Quat(
+				w + pQuat.w,
+				x + pQuat.x,
+				y + pQuat.y,
+				z + pQuat.z
 			);
 		}
 
-		inline QuaternionT operator-(const QuaternionT &quat) const
+		inline Quat operator-(const Quat &pQuat) const
 		{
-			return QuaternionT(
-				w - quat.w,
-				x - quat.x,
-				y - quat.y,
-				z - quat.z
+			return Quat(
+				w - pQuat.w,
+				x - pQuat.x,
+				y - pQuat.y,
+				z - pQuat.z
 			);
 		}
 
-		inline QuaternionT operator*(const QuaternionT &quat) const
+		inline Quat operator*(const Quat &pQuat) const
 		{
-			return QuaternionT(
-				w * quat.w - x * quat.x - y * quat.y - z * quat.z,
-				w * quat.x + x * quat.w + y * quat.z - z * quat.y,
-				w * quat.y - x * quat.z + y * quat.w + z * quat.x,
-				w * quat.z + x * quat.y - y * quat.x + z * quat.w
+			return Quat(
+				w * pQuat.w - x * pQuat.x - y * pQuat.y - z * pQuat.z,
+				w * pQuat.x + x * pQuat.w + y * pQuat.z - z * pQuat.y,
+				w * pQuat.y - x * pQuat.z + y * pQuat.w + z * pQuat.x,
+				w * pQuat.z + x * pQuat.y - y * pQuat.x + z * pQuat.w
 			);
 		}
 
-		Vector<3, T, P> operator*(const Vector<3, T, P> &vec) const
+		Vector<3, T, P> operator*(const Vector<3, T, P> &pVec) const
 		{
 			return Vector<3, T, P>(
-				(T(1) - T(2) * y * y - T(2) * z * z) * vec[0] + T(2) * (x * y + w * z) * vec[1] + T(2) * (x * z - w * y) * vec[2],
-				T(2) * (x * y - w * z) * vec[0] + (T(1) - T(2) * x * x - T(2) * z * z) * vec[1] + T(2) * (x * z + w * y) * vec[2],
-				T(2) * (x * z + w * y) * vec[0] + T(2) * (y * z - w * x) * vec[1] + (T(1) - T(2) * x * x - T(2) * y * y) * vec[2]
+				(T(1) - T(2) * y * y - T(2) * z * z) * pVec[0] + T(2) * (x * y + w * z) * pVec[1] + T(2) * (x * z - w * y) * pVec[2],
+				T(2) * (x * y - w * z) * pVec[0] + (T(1) - T(2) * x * x - T(2) * z * z) * pVec[1] + T(2) * (x * z + w * y) * pVec[2],
+				T(2) * (x * z + w * y) * pVec[0] + T(2) * (y * z - w * x) * pVec[1] + (T(1) - T(2) * x * x - T(2) * y * y) * pVec[2]
 			);
 		}
 
-		inline QuaternionT operator*(const T val) const
+		inline Quat operator*(const T pVal) const
 		{
-			return QuaternionT(
-				w * val,
-				x * val,
-				y * val,
-				z * val
+			return Quat(
+				w * pVal,
+				x * pVal,
+				y * pVal,
+				z * pVal
 			);
 		}
 
-		inline QuaternionT operator/(const QuaternionT &quat) const
+		inline Quat operator/(const Quat &pQuat) const
 		{
-			return *this * quat.Inversed();
+			return *this * pQuat.Inversed();
 		}
 
-		inline QuaternionT operator/(const T val) const
+		inline Quat operator/(const T pVal) const
 		{
-			return QuaternionT(
-				w / val,
-				x / val,
-				y / val,
-				z / val
+			return Quat(
+				w / pVal,
+				x / pVal,
+				y / pVal,
+				z / pVal
 			);
 		}
 
 		// -- Boolean operators --
 
-		inline bool operator!=(const QuaternionT &quat) const
+		inline bool operator!=(const Quat &pQuat) const
 		{
-			return w != quat.w || x != quat.x || y != quat.y || z != quat.z;
+			return w != pQuat.w || x != pQuat.x || y != pQuat.y || z != pQuat.z;
 		}
 
-		inline bool operator==(const QuaternionT &quat) const
+		inline bool operator==(const Quat &pQuat) const
 		{
-			return !(*this != quat);
+			return !(*this != pQuat);
 		}
 
 		// -- Convertion operator --
@@ -267,52 +270,52 @@ namespace Math
 
 		// -- Stream operators --
 
-		friend std::ostream &operator<<(std::ostream &ostream, const QuaternionT &quat)
+		friend std::ostream &operator<<(std::ostream &pOStream, const Quat &pQuat)
 		{
-			ostream << "(w: " << quat.w << ", x: " << quat.x << ", y: " << quat.y << ", z: " << quat.z << ")";
+			pOStream << "(w: " << pQuat.w << ", x: " << pQuat.x << ", y: " << pQuat.y << ", z: " << pQuat.z << ")";
 		}
 
 		// -- Static getters --
 
-		static inline QuaternionT Identity()
+		static inline Quat Identity()
 		{
-			return QuaternionT(T(0), T(0), T(0), T(1));
+			return Quat(T(0), T(0), T(0), T(1));
 		}
 
 		// -- Static methods --
 
-		static QuaternionT FromAngleAxis(const Vector<3, T, P> &axis, const T angle)
+		static Quat FromAngleAxis(const Vector<3, T, P> &pAxis, const T pAngle)
 		{
-			if (!axis.LengthSquared())
+			if (!pAxis.LengthSquared())
 			{
 				return Identity();
 			}
 
-			if (!axis.IsNormalized())
+			if (!pAxis.IsNormalized())
 			{
-				axis.Normalize();
+				pAxis.Normalize();
 			}
 
-			T sin = std::sin(angle * T(0.5));
-			return QuaternionT(std::cos(angle * T(0.5)), axis.x * sin, axis.y * sin, axis.z * sin);
+			const T lSin = std::sin(pAngle * T(0.5));
+			return Quat(std::cos(pAngle * T(0.5)), pAxis.x * lSin, pAxis.y * lSin, pAxis.z * lSin);
 		}
 
-		static QuaternionT FromEulerAngles(const T roll, const T pitch, const T yaw)
+		static Quat FromEulerAngles(const T pRoll, const T pRitch, const T pYaw)
 		{
-			T cr = std::cos(roll * T(0.5));
-			T sr = std::sin(roll * T(0.5));
+			const T lCR = std::cos(pRoll * T(0.5));
+			const T lSR = std::sin(pRoll * T(0.5));
 
-			T cp = std::cos(pitch * T(0.5));
-			T sp = std::sin(pitch * T(0.5));
+			const T lCP = std::cos(pRitch * T(0.5));
+			const T lSP = std::sin(pRitch * T(0.5));
 
-			T cy = std::cos(yaw * T(0.5));
-			T sy = std::sin(yaw * T(0.5));
+			const T lCY = std::cos(pYaw * T(0.5));
+			const T lSY = std::sin(pYaw * T(0.5));
 
-			return QuaternionT(
-				sr * cp * cy - cr * sp * sy,
-				cr * sp * cy + sr * cp * sy,
-				cr * cp * sy - sr * sp * cy,
-				cr * cp * cy + sr * sp * sy
+			return Quat(
+				lSR * lCP * lCY - lCR * lSP * lSY,
+				lCR * lSP * lCY + lSR * lCP * lSY,
+				lCR * lCP * lSY - lSR * lSP * lCY,
+				lCR * lCP * lCY + lSR * lSP * lSY
 			);
 		}
 	};

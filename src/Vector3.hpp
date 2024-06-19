@@ -1,50 +1,41 @@
 #pragma once
 
 #include "Math.hpp"
+#include "MatrixTransform.hpp"
 #include "Vector.hpp"
 
 namespace Math
 {
-	enum class EulerAngleOrder
-	{
-		XYZ,
-		XZY,
-		YXZ,
-		YZX,
-		ZXY,
-		ZYX,
-	};
-
 	template<typename T, typename P>
 	struct Vector<3, T, P>
 	{
 	private:
 		typedef Vector<3, T, P> Vec;
 
-		Vec &RotateAroundX(const P cos, const P sin)
+		Vec &RotateAroundX(const P pCos, const P pSin)
 		{
-			T temp_y = y;
-			T temp_z = z;
-			y = cos * temp_y - sin * temp_z;
-			z = sin * temp_y + cos * temp_z;
+			const T lTempY = y;
+			const T lTempZ = z;
+			y = pCos * lTempY - pSin * lTempZ;
+			z = pSin * lTempY + pCos * lTempZ;
 			return *this;
 		}
 
-		Vec &RotateAroundY(const P cos, const P sin)
+		Vec &RotateAroundY(const P pCos, const P pSin)
 		{
-			T temp_x = x;
-			T temp_z = z;
-			x = cos * temp_x + sin * temp_z;
-			z = -sin * temp_x + cos * temp_z;
+			T lTempX = x;
+			T lTempZ = z;
+			x = pCos * lTempX + pSin * lTempZ;
+			z = -pSin * lTempX + pCos * lTempZ;
 			return *this;
 		}
 
-		Vec &RotateAroundZ(const P cos, const P sin)
+		Vec &RotateAroundZ(const P pCos, const P pSin)
 		{
-			T temp_x = x;
-			T temp_y = y;
-			x = cos * temp_x - sin * temp_y;
-			y = sin * temp_x + cos * temp_y;
+			T lTempX = x;
+			T lTempY = y;
+			x = pCos * lTempX - pSin * lTempY;
+			y = pSin * lTempX + pCos * lTempY;
 			return *this;
 		}
 
@@ -58,77 +49,77 @@ namespace Math
 		Vector<3, T, P>()
 			: x(T(0)), y(T(0)), z(T(0)) {}
 
-		explicit Vector<3, T, P>(const T val)
-			: x(val), y(val), z(val) {}
+		explicit Vector<3, T, P>(const T pVal)
+			: x(pVal), y(pVal), z(pVal) {}
 
-		Vector<3, T, P>(const T x, const T y, const T z)
-			: x(x), y(y), z(z) {}
+		Vector<3, T, P>(const T pX, const T pY, const T pZ)
+			: x(pX), y(pY), z(pZ) {}
 
-		Vector<3, T, P>(const T vals[3])
-			: x(vals[0]), y(vals[1]), z(vals[2]) {}
+		Vector<3, T, P>(const T pVals[3])
+			: x(pVals[0]), y(pVals[1]), z(pVals[2]) {}
 
-		Vector<3, T, P>(const Vec &vec)
-			: x(vec.x), y(vec.y), z(vec.z) {}
+		Vector<3, T, P>(const Vec &pVec)
+			: x(pVec.x), y(pVec.y), z(pVec.z) {}
 
 		// -- Accesses --
 
-		inline const T &operator[](const int index) const noexcept
+		inline const T &operator[](const int pIndex) const noexcept
 		{
-			return *(&x + index);
+			return *(&x + pIndex);
 		}
 
-		inline T &operator[](const int index) noexcept
+		inline T &operator[](const int pIndex) noexcept
 		{
-			return *(&x + index);
+			return *(&x + pIndex);
 		}
 
 		// -- Unary arithmetic operators --
 
-		inline Vec &operator+=(const Vec &vec)
+		inline Vec &operator+=(const Vec &pVec)
 		{
-			x += vec.x;
-			y += vec.y;
-			z += vec.z;
+			x += pVec.x;
+			y += pVec.y;
+			z += pVec.z;
 			return *this;
 		}
 
-		inline Vec &operator-=(const Vec &vec)
+		inline Vec &operator-=(const Vec &pVec)
 		{
-			x -= vec.x;
-			y -= vec.y;
-			z -= vec.z;
+			x -= pVec.x;
+			y -= pVec.y;
+			z -= pVec.z;
 			return *this;
 		}
 
-		inline Vec &operator*=(const Vec &vec)
+		inline Vec &operator*=(const Vec &pVec)
 		{
-			x *= vec.x;
-			y *= vec.y;
-			z *= vec.z;
+			x *= pVec.x;
+			y *= pVec.y;
+			z *= pVec.z;
 			return *this;
 		}
 
-		inline Vec &operator*=(const T val)
+		inline Vec &operator*=(const T pVal)
 		{
-			x *= val;
-			y *= val;
-			z *= val;
+			x *= pVal;
+			y *= pVal;
+			z *= pVal;
 			return *this;
 		}
 
-		inline Vec &operator/=(const Vec &vec)
+		inline Vec &operator/=(const Vec &pVec)
 		{
-			x /= vec.x;
-			y /= vec.y;
-			z /= vec.z;
+			x /= pVec.x;
+			y /= pVec.y;
+			z /= pVec.z;
 			return *this;
 		}
 
-		inline Vec &operator/=(const T val)
+		inline Vec &operator/=(const T pVal)
 		{
-			x /= val;
-			y /= val;
-			z /= val;
+			x /= pVal;
+			y /= pVal;
+			z /= pVal;
 			return *this;
 		}
 
@@ -146,46 +137,46 @@ namespace Math
 
 		// -- Binary operators --
 
-		inline Vec operator+(const Vec &vec) const
+		inline Vec operator+(const Vec &pVec) const
 		{
-			return Vector<3, T, P>(x + vec.x, y + vec.y, z + vec.z);
+			return Vector<3, T, P>(x + pVec.x, y + pVec.y, z + pVec.z);
 		}
 
-		inline Vec operator-(const Vec &vec) const
+		inline Vec operator-(const Vec &pVec) const
 		{
-			return Vector<3, T, P>(x - vec.x, y - vec.y, z - vec.z);
+			return Vector<3, T, P>(x - pVec.x, y - pVec.y, z - pVec.z);
 		}
 
-		inline Vec operator*(const Vec &vec) const
+		inline Vec operator*(const Vec &pVec) const
 		{
-			return Vector<3, T, P>(x * vec.x, y * vec.y, z * vec.z);
+			return Vector<3, T, P>(x * pVec.x, y * pVec.y, z * pVec.z);
 		}
 
-		inline Vec operator*(const T val) const
+		inline Vec operator*(const T pVal) const
 		{
-			return Vector<3, T, P>(x * val, y * val, z * val);
+			return Vector<3, T, P>(x * pVal, y * pVal, z * pVal);
 		}
 
-		inline Vec operator/(const Vec &vec) const
+		inline Vec operator/(const Vec &pVec) const
 		{
-			return Vector<3, T, P>(x / vec.x, y / vec.y, z / vec.z);
+			return Vector<3, T, P>(x / pVec.x, y / pVec.y, z / pVec.z);
 		}
 
-		inline Vec operator/(const T val) const
+		inline Vec operator/(const T pVal) const
 		{
-			return Vector<3, T, P>(x / val, y / val, z / val);
+			return Vector<3, T, P>(x / pVal, y / pVal, z / pVal);
 		}
 
 		// -- Boolean operators --
 
-		inline bool operator==(const Vec &vec) const
+		inline bool operator==(const Vec &pVec) const
 		{
-			return x == vec.x && y == vec.y && z == vec.z;
+			return x == pVec.x && y == pVec.y && z == pVec.z;
 		}
 
-		inline bool operator!=(const Vec &vec) const
+		inline bool operator!=(const Vec &pVec) const
 		{
-			return x != vec.x || y != vec.y || z != vec.z;
+			return x != pVec.x || y != pVec.y || z != pVec.z;
 		}
 
 		// -- Convertion operators --
@@ -198,9 +189,9 @@ namespace Math
 
 		// -- Stream operators --
 
-		friend std::ostream &operator<<(std::ostream &ostream, const Vec &vec)
+		friend std::ostream &operator<<(std::ostream &pOStream, const Vec &pVec)
 		{
-			return ostream << "(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
+			return pOStream << "(" << pVec.x << ", " << pVec.y << ", " << pVec.z << ")";
 		}
 
 		// -- Getters --
@@ -210,34 +201,39 @@ namespace Math
 			return Vector<3, T, P>(Math::Abs(x), Math::Abs(y), Math::Abs(z));
 		}
 
-		Vec Cross(const Vec &vec) const
+		P AngleTo(const Vec &pVec) const
+		{
+			return std::acos(Math::Clamp(Dot(pVec), T(-1), T(1)));
+		}
+
+		Vec Cross(const Vec &pVec) const
 		{
 			return Vector<3, T, P>(
-				y * vec.z - z * vec.y,
-				z * vec.x - x * vec.z,
-				x * vec.y - y * vec.x
+				y * pVec.z - z * pVec.y,
+				z * pVec.x - x * pVec.z,
+				x * pVec.y - y * pVec.x
 			);
 		}
 
-		P Distance(const Vec &vec) const
+		P Distance(const Vec &pVec) const
 		{
-			const P to_x = vec.x - x;
-			const P to_y = vec.y - y;
-			const P to_z = vec.z - z;
+			const P to_x = pVec.x - x;
+			const P to_y = pVec.y - y;
+			const P to_z = pVec.z - z;
 			return std::sqrt(to_x * to_x + to_y * to_y + to_z * to_z);
 		}
 
-		P DistanceSquared(const Vec &vec) const
+		P DistanceSquared(const Vec &pVec) const
 		{
-			const P to_x = vec.x - x;
-			const P to_y = vec.y - y;
-			const P to_z = vec.z - z;
+			const P to_x = pVec.x - x;
+			const P to_y = pVec.y - y;
+			const P to_z = pVec.z - z;
 			return to_x * to_x + to_y * to_y + to_z * to_z;
 		}
 
-		T Dot(const Vec &vec) const
+		T Dot(const Vec &pVec) const
 		{
-			return x * vec.x + y * vec.y + z * vec.z;
+			return x * pVec.x + y * pVec.y + z * pVec.z;
 		}
 
 		bool IsNormalized() const
@@ -257,15 +253,22 @@ namespace Math
 
 		Vec Normalized() const
 		{
-			P length = LengthSquared();
+			P lLength = LengthSquared();
 
-			if (length == 0 || length == 1)
+			if (lLength == 0 || lLength == 1)
 			{
 				return *this;
 			}
 
-			length = std::sqrt(length);
-			return Vector<3, T, P>(x / length, y / length, z / length);
+			lLength = std::sqrt(lLength);
+			return Vector<3, T, P>(x / lLength, y / lLength, z / lLength);
+		}
+
+		Vec Rotated(const P pAngle, const Vector<3, P, P> &pNormal)
+		{
+			Matrix<4, 4, T, P> lRot = Math::Rotate(Math::Matrix<4, 4, T, P>(T(1)), pAngle, pNormal);
+			Vector<4, T, P> lRes = lRot * Vector<4, T, P>(x, y, z, T(1));
+			return Vec(lRes.x, lRes.y, lRes.z);
 		}
 
 		Vec Sign() const
@@ -282,82 +285,43 @@ namespace Math
 
 		Vec &Normalize()
 		{
-			P length = LengthSquared();
+			P lLength = LengthSquared();
 
-			if (length == 0 || length == 1)
+			if (lLength == 0 || lLength == 1)
 			{
 				return *this;
 			}
 
-			length = std::sqrt(length);
-			x /= length;
-			y /= length;
-			z /= length;
+			lLength = std::sqrt(lLength);
+			x /= lLength;
+			y /= lLength;
+			z /= lLength;
 			return *this;
 		}
 
-		Vec &RotateAroundX(const P angle)
+		Vec &RotateAroundX(const P pAngle)
 		{
-			return RotateAroundX(std::cos(angle), std::sin(angle));
+			return RotateAroundX(std::cos(pAngle), std::sin(pAngle));
 		}
 
-		Vec &RotateAroundY(const P angle)
+		Vec &RotateAroundY(const P pAngle)
 		{
-			return RotateAroundY(std::cos(angle), std::sin(angle));
+			return RotateAroundY(std::cos(pAngle), std::sin(pAngle));
 		}
 
-		Vec &RotateAroundZ(const P angle)
+		Vec &RotateAroundZ(const P pAngle)
 		{
-			return RotateAroundZ(std::cos(angle), std::sin(angle));
+			return RotateAroundZ(std::cos(pAngle), std::sin(pAngle));
 		}
 
-		Vec &Rotate(const Vector<3, P, P> &rot, const EulerAngleOrder order = EulerAngleOrder::YXZ)
+		Vec &Rotate(const T pAngle, const Vector<3, T, P> &pNormal)
 		{
-			/*To refactor*/
-			switch (order)
-			{
-				case EulerAngleOrder::XYZ:
-					RotateAroundX(rot.x);
-					RotateAroundY(rot.y);
-					RotateAroundZ(rot.z);
-					break;
-				case EulerAngleOrder::XZY:
-					RotateAroundX(rot.x);
-					RotateAroundZ(rot.z);
-					RotateAroundY(rot.y);
-					break;
-				case EulerAngleOrder::YXZ:
-					RotateAroundY(rot.y);
-					RotateAroundX(rot.x);
-					RotateAroundZ(rot.z);
-					break;
-				case EulerAngleOrder::YZX:
-					RotateAroundY(rot.y);
-					RotateAroundZ(rot.z);
-					RotateAroundX(rot.x);
-					break;
-				case EulerAngleOrder::ZXY:
-					RotateAroundZ(rot.z);
-					RotateAroundX(rot.x);
-					RotateAroundY(rot.y);
-					break;
-				case EulerAngleOrder::ZYX:
-					RotateAroundZ(rot.z);
-					RotateAroundY(rot.y);
-					RotateAroundX(rot.x);
-					break;
-				default:
-					break;
-			}
-
+			const Matrix<4, 4, T, P> lRot = Math::Rotate(Math::Matrix<4, 4, T, P>(T(1)), pAngle, pNormal);
+			Vector<4, T, P> lRes = lRot * Vector<4, T, P>(x, y, z, T(1));
+			x = lRes.x;
+			y = lRes.y;
+			z = lRes.z;
 			return *this;
-		}
-
-		Vec Rotated(const Vector<3, P, P> &rot, const EulerAngleOrder order = EulerAngleOrder::YXZ) const
-		{
-			Vec res(*this);
-			res.Rotate(rot, order);
-			return res;
 		}
 
 		// -- Static getters --
@@ -409,21 +373,21 @@ namespace Math
 
 		// -- Static methods --
 
-		static Vec Lerp(const Vec &lhs, const Vec &rhs, const P t)
+		static Vec Lerp(const Vec &pFrom, const Vec &pTo, const P pTime)
 		{
 			return Vector<3, T, P>(
-				Math::Lerp(lhs.x, rhs.x, t),
-				Math::Lerp(lhs.y, rhs.y, t),
-				Math::Lerp(lhs.z, rhs.z, t)
+				Math::Lerp(pFrom.x, pTo.x, pTime),
+				Math::Lerp(pFrom.y, pTo.y, pTime),
+				Math::Lerp(pFrom.z, pTo.z, pTime)
 			);
 		}
 
-		static Vec LerpClamped(const Vec &lhs, const Vec &rhs, const P t)
+		static Vec LerpClamped(const Vec &pFrom, const Vec &pTo, const P pTime)
 		{
 			return Vector<3, T, P>(
-				Math::LerpClamped(lhs.x, rhs.x, t),
-				Math::LerpClamped(lhs.y, rhs.y, t),
-				Math::LerpClamped(lhs.z, rhs.z, t)
+				Math::LerpClamped(pFrom.x, pTo.x, pTime),
+				Math::LerpClamped(pFrom.y, pTo.y, pTime),
+				Math::LerpClamped(pFrom.z, pTo.z, pTime)
 			);
 		}
 	};

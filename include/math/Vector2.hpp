@@ -2,6 +2,7 @@
 
 #include "Math.hpp"
 #include "Vector.hpp"
+#include <cmath>
 
 namespace Math
 {
@@ -20,71 +21,71 @@ namespace Math
 		Vector<2, T, P>()
 			: x(T(0)), y(T(0)) {}
 
-		explicit Vector<2, T, P>(const T val)
-			: x(val), y(val) {}
+		explicit Vector<2, T, P>(const T pVal)
+			: x(pVal), y(pVal) {}
 
-		Vector<2, T, P>(const T x, const T y)
-			: x(x), y(y) {}
+		Vector<2, T, P>(const T pX, const T pY)
+			: x(pX), y(pY) {}
 
-		Vector<2, T, P>(const T vals[2])
-			: x(vals[0]), y(vals[1]) {}
+		Vector<2, T, P>(const T pVals[2])
+			: x(pVals[0]), y(pVals[1]) {}
 
-		Vector<2, T, P>(const Vector<2, T, P> &vec)
-			: x(vec.x), y(vec.y) {}
+		Vector<2, T, P>(const Vec &pVec)
+			: x(pVec.x), y(pVec.y) {}
 
 		// -- Accesses --
 
-		inline const T &operator[](const int index) const noexcept
+		inline const T &operator[](const int pIndex) const noexcept
 		{
-			return *(&x + index);
+			return *(&x + pIndex);
 		}
 
-		inline T &operator[](const int index) noexcept
+		inline T &operator[](const int pIndex) noexcept
 		{
-			return *(&x + index);
+			return *(&x + pIndex);
 		}
 
 		// -- Unary arithmetic operators --
 
-		inline Vec &operator+=(const Vec &vec)
+		inline Vec &operator+=(const Vec &pVec)
 		{
-			x += vec.x;
-			y += vec.y;
+			x += pVec.x;
+			y += pVec.y;
 			return *this;
 		}
 
-		inline Vec &operator-=(const Vec &vec)
+		inline Vec &operator-=(const Vec &pVec)
 		{
-			x -= vec.x;
-			y -= vec.y;
+			x -= pVec.x;
+			y -= pVec.y;
 			return *this;
 		}
 
-		inline Vec &operator*=(const Vec &vec)
+		inline Vec &operator*=(const Vec &pVec)
 		{
-			x *= vec.x;
-			y *= vec.y;
+			x *= pVec.x;
+			y *= pVec.y;
 			return *this;
 		}
 
-		inline Vec &operator*=(const T val)
+		inline Vec &operator*=(const T pVal)
 		{
-			x *= val;
-			y *= val;
+			x *= pVal;
+			y *= pVal;
 			return *this;
 		}
 
-		inline Vec &operator/=(const Vec &vec)
+		inline Vec &operator/=(const Vec &pVec)
 		{
-			x /= vec.x;
-			y /= vec.y;
+			x /= pVec.x;
+			y /= pVec.y;
 			return *this;
 		}
 
-		inline Vec &operator/=(const T val)
+		inline Vec &operator/=(const T pVal)
 		{
-			x /= val;
-			y /= val;
+			x /= pVal;
+			y /= pVal;
 			return *this;
 		}
 
@@ -102,46 +103,46 @@ namespace Math
 
 		// -- Binary operators --
 
-		inline Vec operator+(const Vec &vec) const
+		inline Vec operator+(const Vec &pVec) const
 		{
-			return Vector<2, T, P>(x + vec.x, y + vec.y);
+			return Vector<2, T, P>(x + pVec.x, y + pVec.y);
 		}
 
-		inline Vec operator-(const Vec &vec) const
+		inline Vec operator-(const Vec &pVec) const
 		{
-			return Vector<2, T, P>(x - vec.x, y - vec.y);
+			return Vector<2, T, P>(x - pVec.x, y - pVec.y);
 		}
 
-		inline Vec operator*(const Vec &vec) const
+		inline Vec operator*(const Vec &pVec) const
 		{
-			return Vector<2, T, P>(x * vec.x, y * vec.y);
+			return Vector<2, T, P>(x * pVec.x, y * pVec.y);
 		}
 
-		inline Vec operator*(const T val) const
+		inline Vec operator*(const T pVal) const
 		{
-			return Vector<2, T, P>(x * val, y * val);
+			return Vector<2, T, P>(x * pVal, y * pVal);
 		}
 
-		inline Vec operator/(const Vec &vec) const
+		inline Vec operator/(const Vec &pVec) const
 		{
-			return Vector<2, T, P>(x / vec.x, y / vec.y);
+			return Vector<2, T, P>(x / pVec.x, y / pVec.y);
 		}
 
-		inline Vec operator/(const T val) const
+		inline Vec operator/(const T pVal) const
 		{
-			return Vector<2, T, P>(x / val, y / val);
+			return Vector<2, T, P>(x / pVal, y / pVal);
 		}
 
 		// -- Boolean operators --
 
-		inline bool operator==(const Vec &vec) const
+		inline bool operator==(const Vec &pVec) const
 		{
-			return x == vec.x && y == vec.y;
+			return x == pVec.x && y == pVec.y;
 		}
 
-		inline bool operator!=(const Vec &vec) const
+		inline bool operator!=(const Vec &pVec) const
 		{
-			return x != vec.x || y != vec.y;
+			return x != pVec.x || y != pVec.y;
 		}
 
 		// -- Convertion operators --
@@ -154,9 +155,9 @@ namespace Math
 
 		// -- Stream operators --
 
-		friend std::ostream &operator<<(std::ostream &ostream, const Vec &vec)
+		friend std::ostream &operator<<(std::ostream &pOStream, const Vec &pVec)
 		{
-			return ostream << "(" << vec.x << ", " << vec.y << ")";
+			return pOStream << "(" << pVec.x << ", " << pVec.y << ")";
 		}
 
 		// -- Getters --
@@ -166,28 +167,33 @@ namespace Math
 			return Vector<2, T, P>(Math::Abs(x), Math::Abs(y));
 		}
 
-		T Cross(const Vec &vec) const
+		P AngleTo(const Vec &pVec) const
 		{
-			return x * vec.y - y * vec.x;
+			return std::acos(Math::Clamp(Dot(pVec), T(-1), T(1)));
 		}
 
-		P Distance(const Vec &vec) const
+		T Cross(const Vec &pVec) const
 		{
-			const P to_x = vec.x - x;
-			const P to_y = vec.y - y;
+			return x * pVec.y - y * pVec.x;
+		}
+
+		P Distance(const Vec &pVec) const
+		{
+			const P to_x = pVec.x - x;
+			const P to_y = pVec.y - y;
 			return std::sqrt(to_x * to_x - to_y * to_y);
 		}
 
-		P DistanceSquared(const Vec &vec) const
+		P DistanceSquared(const Vec &pVec) const
 		{
-			const P to_x = vec.x - x;
-			const P to_y = vec.y - y;
+			const P to_x = pVec.x - x;
+			const P to_y = pVec.y - y;
 			return to_x * to_x + to_y * to_y;
 		}
 
-		T Dot(const Vec &vec) const
+		T Dot(const Vec &pVec) const
 		{
-			x * vec.x + y * vec.y;
+			x * pVec.x + y * pVec.y;
 		}
 
 		bool IsNormalized() const
@@ -207,21 +213,21 @@ namespace Math
 
 		Vec Normalized() const
 		{
-			P length = LengthSquared();
+			P lLength = LengthSquared();
 
-			if (length == 0 || length == 1)
+			if (lLength == 0 || lLength == 1)
 			{
 				return *this;
 			}
 
-			length = std::sqrt(length);
-			return Vector<2, T, P>(x / length, y / length);
+			lLength = std::sqrt(lLength);
+			return Vector<2, T, P>(x / lLength, y / lLength);
 		}
 
-		Vec Rotated(const P angle) const
+		Vec Rotated(const P pAngle) const
 		{
-			const P cos = std::cos(angle);
-			const P sin = std::sin(angle);
+			const P cos = std::cos(pAngle);
+			const P sin = std::sin(pAngle);
 			return Vector<2, T, P>(cos * x - sin * y, sin * x + cos * y);
 		}
 
@@ -239,28 +245,28 @@ namespace Math
 
 		Vec &Normalize()
 		{
-			P length = LengthSquared();
+			P lLength = LengthSquared();
 
-			if (length == 0 || length == 1)
+			if (lLength == 0 || lLength == 1)
 			{
 				return *this;
 			}
 
-			length = std::sqrt(length);
-			x /= length;
-			y /= length;
+			lLength = std::sqrt(lLength);
+			x /= lLength;
+			y /= lLength;
 			return *this;
 		}
 
-		Vec &Rotate(const P angle)
+		Vec &Rotate(const P pAngle)
 		{
-			const P cos = std::cos(angle);
-			const P sin = std::sin(angle);
-			const T temp_x = x;
-			const T temp_y = y;
+			const P lCos = std::cos(pAngle);
+			const P lSin = std::sin(pAngle);
+			const T lTempX = x;
+			const T lTempY = y;
 
-			x = cos * temp_x - sin * temp_y;
-			y = sin * temp_x + cos * temp_y;
+			x = lCos * lTempX - lSin * lTempY;
+			y = lSin * lTempX + lCos * lTempY;
 			return *this;
 		}
 
@@ -303,19 +309,19 @@ namespace Math
 
 		// -- Static methods --
 
-		static Vec Lerp(const Vec &lhs, const Vec &rhs, const P t)
+		static Vec Lerp(const Vec &pFrom, const Vec &pTo, const P pTime)
 		{
 			return Vector<2, T, P>(
-				Math::Lerp(lhs.x, rhs.x, t),
-				Math::Lerp(lhs.y, rhs.y, t)
+				Math::Lerp(pFrom.x, pTo.x, pTime),
+				Math::Lerp(pFrom.y, pTo.y, pTime)
 			);
 		}
 
-		static Vec LerpClamped(const Vec &lhs, const Vec &rhs, const P t)
+		static Vec LerpClamped(const Vec &pFrom, const Vec &pTo, const P pTime)
 		{
 			return Vector<2, T, P>(
-				Math::LerpClamped(lhs.x, rhs.x, t),
-				Math::LerpClamped(lhs.y, rhs.y, t)
+				Math::LerpClamped(pFrom.x, pTo.x, pTime),
+				Math::LerpClamped(pFrom.y, pTo.y, pTime)
 			);
 		}
 	};

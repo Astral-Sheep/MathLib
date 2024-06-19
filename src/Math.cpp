@@ -5,9 +5,9 @@ namespace Math
 {
 #define INTEGER_ABS(T)\
 	template<>\
-	T Abs(const T &v)\
+	T Abs(const T &pVal)\
 	{\
-		return v & ~(1 << (sizeof(T) - 1));\
+		return pVal & ~(1 << (sizeof(T) - 1));\
 	}
 
 	INTEGER_ABS(long long)
@@ -18,15 +18,15 @@ namespace Math
 #undef INTEGER_ABS
 
 	template<>
-	int EuclidianRemainder(const int &a, const int &b)
+	int EuclidianRemainder(const int &pLhs, const int &pRhs)
 	{
 #if (-1 >> 1) == -1
-		#define OFFSET ((a % b >> (sizeof(int) * CHAR_BIT - 1)) & b)
+		#define OFFSET ((pLhs % pRhs >> (sizeof(int) * CHAR_BIT - 1)) & pRhs)
 #else
 		#define OFFSET ((a % b < 0) * b)
 #endif //ARITHMETIC SHIFT CHECK
 
-		return a % b + OFFSET;
+		return pLhs % pRhs + OFFSET;
 #undef OFFSET
 	}
 }

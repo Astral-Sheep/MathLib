@@ -22,83 +22,83 @@ namespace Math
 		Vector<4, T, P>()
 			: x(T(0)), y(T(0)), z(T(0)), w(T(0)) {}
 
-		explicit Vector<4, T, P>(const T val)
-			: x(val), y(val), z(val), w(val) {}
+		explicit Vector<4, T, P>(const T pVal)
+			: x(pVal), y(pVal), z(pVal), w(pVal) {}
 
-		Vector <4, T, P>(const T x, const T y, const T z, const T w)
-			: x(x), y(y), z(z), w(w) {}
+		Vector <4, T, P>(const T pX, const T pY, const T pZ, const T pW)
+			: x(pX), y(pY), z(pZ), w(pW) {}
 
-		Vector<4, T, P>(const T vals[4])
-			: x(vals[0]), y(vals[1]), z(vals[2]), w(vals[3]) {}
+		Vector<4, T, P>(const T pVals[4])
+			: x(pVals[0]), y(pVals[1]), z(pVals[2]), w(pVals[3]) {}
 
-		Vector<4, T, P>(const Vec &vec)
-			: x(vec.x), y(vec.y), z(vec.z), w(vec.w) {}
+		Vector<4, T, P>(const Vec &pVec)
+			: x(pVec.x), y(pVec.y), z(pVec.z), w(pVec.w) {}
 
 		// -- Accesses --
 
-		inline const T &operator[](const int index) const noexcept
+		inline const T &operator[](const int pIndex) const noexcept
 		{
-			return *(&x + index);
+			return *(&x + pIndex);
 		}
 
-		inline T &operator[](const int index) noexcept
+		inline T &operator[](const int pIndex) noexcept
 		{
-			return *(&x + index);
+			return *(&x + pIndex);
 		}
 
 		// -- Unary arithmetic operators --
 
-		inline Vec &operator+=(const Vec &vec)
+		inline Vec &operator+=(const Vec &pVec)
 		{
-			x += vec.x;
-			y += vec.y;
-			z += vec.z;
-			w += vec.w;
+			x += pVec.x;
+			y += pVec.y;
+			z += pVec.z;
+			w += pVec.w;
 			return *this;
 		}
 
-		inline Vec &operator-=(const Vec &vec)
+		inline Vec &operator-=(const Vec &pVec)
 		{
-			x -= vec.x;
-			y -= vec.y;
-			z -= vec.z;
-			w -= vec.w;
+			x -= pVec.x;
+			y -= pVec.y;
+			z -= pVec.z;
+			w -= pVec.w;
 			return *this;
 		}
 
-		inline Vec &operator*=(const Vec &vec)
+		inline Vec &operator*=(const Vec &pVec)
 		{
-			x *= vec.x;
-			y *= vec.y;
-			z *= vec.z;
-			w *= vec.w;
+			x *= pVec.x;
+			y *= pVec.y;
+			z *= pVec.z;
+			w *= pVec.w;
 			return *this;
 		}
 
-		inline Vec &operator*=(const T val)
+		inline Vec &operator*=(const T pVal)
 		{
-			x *= val;
-			y *= val;
-			z *= val;
-			w *= val;
+			x *= pVal;
+			y *= pVal;
+			z *= pVal;
+			w *= pVal;
 			return *this;
 		}
 
-		inline Vec &operator/=(const Vec &vec)
+		inline Vec &operator/=(const Vec &pVec)
 		{
-			x /= vec.x;
-			y /= vec.y;
-			z /= vec.z;
-			w /= vec.w;
+			x /= pVec.x;
+			y /= pVec.y;
+			z /= pVec.z;
+			w /= pVec.w;
 			return *this;
 		}
 
-		inline Vec &operator/=(const T val)
+		inline Vec &operator/=(const T pVal)
 		{
-			x /= val;
-			y /= val;
-			z /= val;
-			w /= val;
+			x /= pVal;
+			y /= pVal;
+			z /= pVal;
+			w /= pVal;
 			return *this;
 		}
 
@@ -116,46 +116,46 @@ namespace Math
 
 		// -- Binary operators --
 
-		inline Vec operator+(const Vec &vec) const
+		inline Vec operator+(const Vec &pVec) const
 		{
-			return Vector<4, T, P>(x + vec.x, y + vec.y, z + vec.z, w + vec.w);
+			return Vector<4, T, P>(x + pVec.x, y + pVec.y, z + pVec.z, w + pVec.w);
 		}
 
-		inline Vec operator-(const Vec &vec) const
+		inline Vec operator-(const Vec &pVec) const
 		{
-			return Vector<4, T, P>(x - vec.x, y - vec.y, z - vec.z, w - vec.w);
+			return Vector<4, T, P>(x - pVec.x, y - pVec.y, z - pVec.z, w - pVec.w);
 		}
 
-		inline Vec operator*(const Vec &vec) const
+		inline Vec operator*(const Vec &pVec) const
 		{
-			return Vector<4, T, P>(x * vec.x, y * vec.y, z * vec.z, w * vec.w);
+			return Vector<4, T, P>(x * pVec.x, y * pVec.y, z * pVec.z, w * pVec.w);
 		}
 
-		inline Vec operator*(const T val) const
+		inline Vec operator*(const T pVal) const
 		{
-			return Vector<4, T, P>(x * val, y * val, z * val, w * val);
+			return Vector<4, T, P>(x * pVal, y * pVal, z * pVal, w * pVal);
 		}
 
-		inline Vec operator/(const Vec &vec) const
+		inline Vec operator/(const Vec &pVec) const
 		{
-			return Vector<4, T, P>(x / vec.x, y / vec.y, z / vec.z, w / vec.w);
+			return Vector<4, T, P>(x / pVec.x, y / pVec.y, z / pVec.z, w / pVec.w);
 		}
 
-		inline Vec operator/(const T val) const
+		inline Vec operator/(const T pVal) const
 		{
-			return Vector<4, T, P>(x / val, y / val, z / val, w / val);
+			return Vector<4, T, P>(x / pVal, y / pVal, z / pVal, w / pVal);
 		}
 
 		// -- Boolean operators --
 
-		inline bool operator==(const Vec &vec) const
+		inline bool operator==(const Vec &pVec) const
 		{
-			return x == vec.x && y == vec.y && z == vec.z && w == vec.w;
+			return x == pVec.x && y == pVec.y && z == pVec.z && w == pVec.w;
 		}
 
-		inline bool operator!=(const Vec &vec) const
+		inline bool operator!=(const Vec &pVec) const
 		{
-			return x != vec.x || y != vec.y || z != vec.z || w != vec.w;
+			return x != pVec.x || y != pVec.y || z != pVec.z || w != pVec.w;
 		}
 
 		// -- Convertion operators --
@@ -168,9 +168,9 @@ namespace Math
 
 		// -- Stream operators --
 
-		friend std::ostream &operator<<(std::ostream &ostream, const Vec &vec)
+		friend std::ostream &operator<<(std::ostream &pOStream, const Vec &pVec)
 		{
-			return ostream << "(" << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w << ")";
+			return pOStream << "(" << pVec.x << ", " << pVec.y << ", " << pVec.z << ", " << pVec.w << ")";
 		}
 
 		// -- Getters --
@@ -180,27 +180,32 @@ namespace Math
 			return Vector<4, T, P>(Math::Abs(x), Math::Abs(y), Math::Abs(z), Math::Abs(w));
 		}
 
-		P Distance(const Vec &vec) const
+		P AngleTo(const Vec &pVec) const
 		{
-			const P to_x = vec.x - x;
-			const P to_y = vec.y - y;
-			const P to_z = vec.z - z;
-			const P to_w = vec.w - w;
-			return std::sqrt(to_x * to_x + to_y * to_y + to_z * to_z + to_w * to_w);
+			return std::acos(Math::Clamp(Dot(pVec), T(-1), T(1)));
 		}
 
-		P DistanceSquared(const Vec &vec) const
+		P Distance(const Vec &pVec) const
 		{
-			const P to_x = vec.x - x;
-			const P to_y = vec.y - y;
-			const P to_z = vec.z - z;
-			const P to_w = vec.w - w;
-			return to_x * to_x + to_y * to_y + to_z * to_z + to_w * to_w;
+			const P lToX = pVec.x - x;
+			const P lToY = pVec.y - y;
+			const P lToZ = pVec.z - z;
+			const P lToW = pVec.w - w;
+			return std::sqrt(lToX * lToX + lToY * lToY + lToZ * lToZ + lToW * lToW);
 		}
 
-		T Dot(const Vec &vec) const
+		P DistanceSquared(const Vec &pVec) const
 		{
-			return x * vec.x + y * vec.y + z * vec.z + w * vec.w;
+			const P lToX = pVec.x - x;
+			const P lToY = pVec.y - y;
+			const P lToZ = pVec.z - z;
+			const P lToW = pVec.w - w;
+			return lToX * lToX + lToY * lToY + lToZ * lToZ + lToW * lToW;
+		}
+
+		T Dot(const Vec &pVec) const
+		{
+			return x * pVec.x + y * pVec.y + z * pVec.z + w * pVec.w;
 		}
 
 		bool IsNormalized() const
@@ -220,15 +225,15 @@ namespace Math
 
 		Vec Normalized() const
 		{
-			P length = LengthSquared();
+			P lLength = LengthSquared();
 
-			if (length == 0 || length == 1)
+			if (lLength == 0 || lLength == 1)
 			{
 				return *this;
 			}
 
-			length = std::sqrt(length);
-			return Vector<4, T, P>(x / length, y / length, z / length, w / length);
+			lLength = std::sqrt(lLength);
+			return Vector<4, T, P>(x / lLength, y / lLength, z / lLength, w / lLength);
 		}
 
 		Vec Sign() const
@@ -245,18 +250,18 @@ namespace Math
 
 		Vec &Normalize()
 		{
-			P length = LengthSquared();
+			P lLength = LengthSquared();
 
-			if (length == 0 || length == 1)
+			if (lLength == 0 || lLength == 1)
 			{
 				return *this;
 			}
 
-			length = std::sqrt(length);
-			x /= length;
-			y /= length;
-			z /= length;
-			w /= length;
+			lLength = std::sqrt(lLength);
+			x /= lLength;
+			y /= lLength;
+			z /= lLength;
+			w /= lLength;
 			return *this;
 		}
 
@@ -319,23 +324,23 @@ namespace Math
 
 		// -- Static methods --
 
-		static Vec Lerp(const Vec &lhs, const Vec &rhs, const P t)
+		static Vec Lerp(const Vec &pFrom, const Vec &pTo, const P pTime)
 		{
 			return Vector<4, T, P>(
-				Math::Lerp(lhs.x, rhs.x, t),
-				Math::Lerp(lhs.y, rhs.y, t),
-				Math::Lerp(lhs.z, rhs.z, t),
-				Math::Lerp(lhs.w, rhs.w, t)
+				Math::Lerp(pFrom.x, pTo.x, pTime),
+				Math::Lerp(pFrom.y, pTo.y, pTime),
+				Math::Lerp(pFrom.z, pTo.z, pTime),
+				Math::Lerp(pFrom.w, pTo.w, pTime)
 			);
 		}
 
-		static Vec LerpClamped(const Vec &lhs, const Vec &rhs, const P t)
+		static Vec LerpClamped(const Vec &pFrom, const Vec &pTo, const P pTime)
 		{
 			return Vector<4, T, P>(
-				Math::LerpClamped(lhs.x, rhs.x, t),
-				Math::LerpClamped(lhs.y, rhs.y, t),
-				Math::LerpClamped(lhs.z, rhs.z, t),
-				Math::LerpClamped(lhs.w, rhs.w, t)
+				Math::LerpClamped(pFrom.x, pTo.x, pTime),
+				Math::LerpClamped(pFrom.y, pTo.y, pTime),
+				Math::LerpClamped(pFrom.z, pTo.z, pTime),
+				Math::LerpClamped(pFrom.w, pTo.w, pTime)
 			);
 		}
 	};

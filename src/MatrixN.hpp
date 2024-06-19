@@ -11,7 +11,7 @@ namespace Math
 	private:
 		typedef Matrix<N, N, T, P> Mat;
 		typedef Vector<N, T, P> Col;
-		Col values[N];
+		Col mValues[N];
 
 	public:
 		// -- Constructors --
@@ -20,58 +20,58 @@ namespace Math
 		{
 			for (int i = 0; i < N; i++)
 			{
-				values[i] = Col();
+				mValues[i] = Col();
 			}
 		}
 
-		Matrix(const T val)
+		explicit Matrix(const T pVal)
 		{
 			for (int i = 0; i < N; i++)
 			{
-				values[i] = Col();
-				values[i][i] = val;
+				mValues[i] = Col();
+				mValues[i][i] = pVal;
 			}
 		}
 
-		Matrix(const T vals[N * N])
+		Matrix(const T pVals[N * N])
 		{
 			for (int i = 0; i < N; i++)
 			{
-				values[i] = Col();
+				mValues[i] = Col();
 
 				for (int j = 0; j < N; j++)
 				{
-					values[i][j] = vals[i + j * N];
+					mValues[i][j] = pVals[i + j * N];
 				}
 			}
 		}
 
-		Matrix(const Col vals[N])
+		Matrix(const Col pVals[N])
 		{
 			for (int i = 0; i < N; i++)
 			{
-				values[i] = vals[i];
+				mValues[i] = pVals[i];
 			}
 		}
 
-		Matrix(const Mat &mat)
+		Matrix(const Mat &pMat)
 		{
 			for (int i = 0; i < N; i++)
 			{
-				values[i] = mat[i];
+				mValues[i] = pMat[i];
 			}
 		}
 
 		// -- Accesses --
 
-		inline const Col &operator[](const int index) const noexcept
+		inline const Col &operator[](const int pIndex) const noexcept
 		{
-			return values[index];
+			return mValues[pIndex];
 		}
 
-		inline Col &operator[](const int index) noexcept
+		inline Col &operator[](const int pIndex) noexcept
 		{
-			return values[index];
+			return mValues[pIndex];
 		}
 
 		// -- Unary arithmetic operators --
@@ -85,22 +85,22 @@ namespace Math
 		}\
 	}
 
-		Mat &operator+=(const Mat &mat)
+		Mat &operator+=(const Mat &pMat)
 		{
-			OPERATOR(values[i][j], +=, mat[i][j])
+			OPERATOR(mValues[i][j], +=, pMat[i][j])
 			return *this;
 		}
 
-		Mat &operator-=(const Mat &mat)
+		Mat &operator-=(const Mat &pMat)
 		{
-			OPERATOR(values[i][j], -=, mat[i][j])
+			OPERATOR(mValues[i][j], -=, pMat[i][j])
 			return *this;
 		}
 
-		Mat &operator*=(const Mat &mat)
+		Mat &operator*=(const Mat &pMat)
 		{
-			Mat temp(*this);
-			Col column;
+			const Mat lTemp(*this);
+			Col lColumn;
 
 			for (int i = 0; i < N; i++)
 			{
@@ -108,46 +108,46 @@ namespace Math
 				{
 					for (int k = 0; k < N; k++)
 					{
-						column[j] += temp[k][i] * mat[j][k];
+						lColumn[j] += lTemp[k][i] * pMat[j][k];
 					}
 				}
 
-				values[i] = column;
+				mValues[i] = lColumn;
 			}
 
 			return *this;
 		}
 
-		Mat &operator*=(const T val)
+		Mat &operator*=(const T pVal)
 		{
-			OPERATOR(values[i][j], *=, val)
+			OPERATOR(mValues[i][j], *=, pVal)
 			return *this;
 		}
 
-		Mat &operator/=(const Mat &mat)
+		Mat &operator/=(const Mat &pMat)
 		{
-			return *this *= mat.Inverted();
+			return *this *= pMat.Inverted();
 		}
 
-		Mat &operator/=(const T val)
+		Mat &operator/=(const T pVal)
 		{
-			const T inv = T(1) / val;
-			OPERATOR(values[i][j], *=, inv)
+			const T lInv = T(1) / pVal;
+			OPERATOR(mValues[i][j], *=, lInv)
 			return *this;
 		}
 
 #define CONST_OPERATOR(op)\
-	Mat res;\
+	Mat lRes;\
 	\
 	for (int i = 0; i < N; i++)\
 	{\
 		for (int j = 0; j < N; j++)\
 		{\
-			res[i][j] = op;\
+			lRes[i][j] = op;\
 		}\
 	}\
 	\
-	return res;
+	return lRes;
 
 		// -- Unary operators --
 
@@ -158,24 +158,24 @@ namespace Math
 
 		Mat operator-() const
 		{
-			CONST_OPERATOR(-values[i][j]);
+			CONST_OPERATOR(-mValues[i][j]);
 		}
 
 		// -- Binary operator --
 
-		Mat operator+(const Mat &mat) const
+		Mat operator+(const Mat &pMat) const
 		{
-			CONST_OPERATOR(values[i][j] + mat[i][j])
+			CONST_OPERATOR(mValues[i][j] + pMat[i][j])
 		}
 
-		Mat operator-(const Mat &mat) const
+		Mat operator-(const Mat &pMat) const
 		{
-			CONST_OPERATOR(values[i][j] - mat[i][j])
+			CONST_OPERATOR(mValues[i][j] - pMat[i][j])
 		}
 
-		Mat operator*(const Mat &mat) const
+		Mat operator*(const Mat &pMat) const
 		{
-			Mat res;
+			Mat lRes;
 
 			for (int i = 0; i < N; i++)
 			{
@@ -183,38 +183,38 @@ namespace Math
 				{
 					for (int k = 0; k < N; k++)
 					{
-						res[i][j] += values[k][j] * mat[i][k];
+						lRes[i][j] += mValues[k][j] * pMat[i][k];
 					}
 				}
 			}
 
-			return res;
+			return lRes;
 		}
 
-		Col operator*(const Col &vec) const
+		Col operator*(const Col &pVec) const
 		{
-			Col res;
+			Col lRes;
 
 			for (int i = 0; i < N; i++)
 			{
 				for (int j = 0; j < N; j++)
 				{
-					res[i] += values[j][i] * vec[j];
+					lRes[i] += mValues[j][i] * pVec[j];
 				}
 			}
 
-			return res;
+			return lRes;
 		}
 
-		Mat operator*(const T val) const
+		Mat operator*(const T pVal) const
 		{
-			CONST_OPERATOR(values[i][j] * val)
+			CONST_OPERATOR(mValues[i][j] * pVal)
 		}
 
 		template<unsigned int S>
-		Matrix<S, N, T, P> operator*(const Matrix<S, N, T, P> &mat) const
+		Matrix<S, N, T, P> operator*(const Matrix<S, N, T, P> &pMat) const
 		{
-			Matrix<S, N, T, P> res;
+			Matrix<S, N, T, P> lRes;
 
 			for (int i = 0; i < S; i++)
 			{
@@ -222,23 +222,23 @@ namespace Math
 				{
 					for (int k = 0; k < N; k++)
 					{
-						mat[i][j] += values[k][j] * values[i][k];
+						pMat[i][j] += mValues[k][j] * mValues[i][k];
 					}
 				}
 			}
 
-			return res;
+			return lRes;
 		}
 
-		Mat operator/(const Mat &mat) const
+		Mat operator/(const Mat &pMat) const
 		{
-			return *this * mat.Inverted();
+			return *this * pMat.Inverted();
 		}
 
-		Mat operator/(const T val) const
+		Mat operator/(const T pVal) const
 		{
-			const T inv = T(1) / val;
-			CONST_OPERATOR(values[i][j] * inv)
+			const T lInv = T(1) / pVal;
+			CONST_OPERATOR(mValues[i][j] * lInv)
 		}
 
 		// -- Boolean operators --
@@ -248,7 +248,7 @@ namespace Math
 	{\
 		for (int j = 0; j < N; j++)\
 		{\
-			if (values[i][j] op mat[i][j])\
+			if (mValues[i][j] op pMat[i][j])\
 			{\
 				return false;\
 			}\
@@ -257,12 +257,12 @@ namespace Math
 	\
 	return true;
 
-		bool operator==(const Mat &mat) const
+		bool operator==(const Mat &pMat) const
 		{
 			BOOL_OPERATOR(!=)
 		}
 
-		bool operator!=(const Mat &mat) const
+		bool operator!=(const Mat &pMat) const
 		{
 			BOOL_OPERATOR(==)
 		}
@@ -272,35 +272,45 @@ namespace Math
 		template<typename U, typename Q>
 		operator Matrix<N, N, U, Q>() const
 		{
-			CONST_OPERATOR((U)values[i][j])
+			Matrix<N, N, U, Q> lRes;
+
+			for (int i = 0; i < N; i++)
+			{
+				for (int j = 0; j < N; j++)
+				{
+					lRes[i][j] = (U)mValues[i][j];
+				}
+			}
+
+			return lRes;
 		}
 
 		// -- Stream operators --
 
-		friend std::ostream &operator<<(std::ostream &ostream, const Mat &mat)
+		friend std::ostream &operator<<(std::ostream &pOStream, const Mat &pMat)
 		{
 			for (int i = 0; i < N; i++)
 			{
 				for (int j = 0; j < N; j++)
 				{
-					ostream << mat[j][i] << (j < N - 1 ? ',' : '\n');
+					pOStream << pMat[j][i] << (j < N - 1 ? ',' : '\n');
 				}
 			}
 
-			return ostream;
+			return pOStream;
 		}
 
 		// -- Getters --
 
 		Mat GetAdjugate() const
 		{
-			Mat res;
+			Mat lRes;
 
 			for (int i = 0; i < N; i++)
 			{
 				for (int j = 0; j < N; j++)
 				{
-					Matrix<N - 1, N - 1, T, P> submat;
+					Matrix<N - 1, N - 1, T, P> lSubmat;
 					int x = 0;
 					int y = 0;
 
@@ -311,36 +321,36 @@ namespace Math
 							continue;
 						}
 
-						for (int l = 0; k < N; k++)
+						for (int l = 0; l < N; l++)
 						{
 							if (l == j)
 							{
 								continue;
 							}
 
-							submat[x][y] = values[i][j];
+							lSubmat[x][y] = mValues[i][j];
 							y++;
 						}
 
 						x++;
 					}
 
-					res[j][i] = submat.GetDeterminant() * (((i + j) % 2) ? -1 : 1);
+					lRes[j][i] = lSubmat.GetDeterminant() * (((i + j + 1) % 2) * 2 - 1);
 				}
 			}
 
-			return res;
+			return lRes;
 		}
 
 		Mat GetCofactor() const
 		{
-			Mat res;
+			Mat lRes;
 
 			for (int i = 0; i < N; i++)
 			{
 				for (int j = 0; j < N; j++)
 				{
-					Matrix<N - 1, N - 1, T, P> submat;
+					Matrix<N - 1, N - 1, T, P> lSubmat;
 					int x = 0;
 					int y = 0;
 
@@ -351,25 +361,25 @@ namespace Math
 							continue;
 						}
 
-						for (int l = 0; k < N; k++)
+						for (int l = 0; l < N; l++)
 						{
 							if (l == j)
 							{
 								continue;
 							}
 
-							submat[x][y] = values[i][j];
+							lSubmat[x][y] = mValues[i][j];
 							y++;
 						}
 
 						x++;
 					}
 
-					res[i][j] = submat.GetDeterminant() * (((i + j) % 2) ? -1 : 1);
+					lRes[i][j] = lSubmat.GetDeterminant() * (((i + j + 1) % 2) * 2 - 1);
 				}
 			}
 
-			return res;
+			return lRes;
 		}
 
 		T GetDeterminant() const
@@ -381,23 +391,23 @@ namespace Math
 
 			if (N == 1)
 			{
-				return values[0][0];
+				return mValues[0][0];
 			}
 
 			if (N == 2)
 			{
-				return values[0][0] * values[1][1] - values[1][0] * values[0][1];
+				return mValues[0][0] * mValues[1][1] - mValues[1][0] * mValues[0][1];
 			}
 
 			// Matrix3x3 and above
 
-			T determinant = T(0);
+			T lDet = T(0);
 			int x;
 			int y;
 
 			for (int i = 0; i < N; i++)
 			{
-				Matrix<N - 1, N - 1, T, P> subMat;
+				Matrix<N - 1, N - 1, T, P> lSubmat;
 				x = 0;
 
 				for (int j = 0; j < N; j++)
@@ -416,17 +426,17 @@ namespace Math
 							continue;
 						}
 
-						subMat[x][y] = values[j][k];
+						lSubmat[x][y] = mValues[j][k];
 						y++;
 					}
 
 					x++;
 				}
 
-				determinant += values[0][i] * subMat.GetDeterminant() * ((i % 2) ? -1 : 1);
+				lDet += mValues[0][i] * lSubmat.GetDeterminant() * ((i % 2) ? -1 : 1);
 			}
 
-			return determinant;
+			return lDet;
 		}
 
 		Mat Inverted() const
@@ -436,17 +446,7 @@ namespace Math
 
 		Mat Transposed() const
 		{
-			Mat res;
-
-			for (int i = 0; i < N; i++)
-			{
-				for (int j = 0; j < N; j++)
-				{
-					res[i][j] = values[j][i];
-				}
-			}
-
-			return res;
+			CONST_OPERATOR(mValues[j][i]);
 		}
 
 		// -- Transformations --
@@ -459,13 +459,13 @@ namespace Math
 
 		Mat &Transpose()
 		{
-			const Mat temp(*this);
+			const Mat lTemp(*this);
 
 			for (int i = 0; i < N; i++)
 			{
 				for (int j = 0; j < N; j++)
 				{
-					values[i][j] = temp[j][i];
+					mValues[i][j] = lTemp[j][i];
 				}
 			}
 
@@ -478,10 +478,15 @@ namespace Math
 		{
 			return Mat(T(1));
 		}
-	};
-
 #undef OPERATOR
 #undef CONST_OPERATOR
 #undef BOOL_OPERATOR
+	};
+
+	template<unsigned int N, typename T, typename P>
+	using MatrixNxN = Matrix<N, N, T, P>;
+
+	template<unsigned int N, typename T, typename P>
+	using MatrixN = Matrix<N, N, T, P>;
 }
 

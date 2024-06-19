@@ -11,7 +11,7 @@ namespace Math
 		typedef Matrix<C, R, T, P> MatCxR;
 		typedef Matrix<R, C, T, P> MatTranspose;
 		typedef Vector<R, T, P> Column;
-		Column values[C];
+		Column mValues[C];
 
 	public:
 		// -- Constructors --
@@ -22,98 +22,98 @@ namespace Math
 			{
 				for (int j = 0; j < R; j++)
 				{
-					values[i][j] = T(0);
+					mValues[i][j] = T(0);
 				}
 			}
 		}
 
-		Matrix(const T value)
+		explicit Matrix(const T pVal)
 		{
 			for (int i = 0; i < C; i++)
 			{
 				for (int j = 0; j < R; j++)
 				{
-					values[i][j] = i == j ? value : T(0);
+					mValues[i][j] = i == j ? pVal : T(0);
 				}
 			}
 		}
 
-		Matrix(const Column values[C])
+		Matrix(const Column pVals[C])
 		{
 			for (int i = 0; i < C; i++)
 			{
-				this->values[i] = values[i];
+				this->mValues[i] = pVals[i];
 			}
 		}
 
-		Matrix(const T values[C * R])
+		Matrix(const T pVals[C * R])
 		{
 			for (int i = 0; i < C; i++)
 			{
 				for (int j = 0; j < R; j++)
 				{
-					this->values[i][j] = values[i * R + C];
+					this->mValues[i][j] = pVals[i * R + C];
 				}
 			}
 		}
 
-		Matrix(const MatCxR &matrix)
+		Matrix(const MatCxR &pMat)
 		{
 			for (int i = 0; i < C; i++)
 			{
-				values[i] = matrix[i];
+				mValues[i] = pMat[i];
 			}
 		}
 
 		// -- Accesses --
 
-		inline const Column &operator[](const int index) const noexcept
+		inline const Column &operator[](const int pIndex) const noexcept
 		{
-			return values[index];
+			return mValues[pIndex];
 		}
 
-		inline Column &operator[](const int index) noexcept
+		inline Column &operator[](const int pIndex) noexcept
 		{
-			return values[index];
+			return mValues[pIndex];
 		}
 
 		// -- Unary arithmetic operators --
 
-		MatCxR &operator+=(const MatCxR &matrix)
+		MatCxR &operator+=(const MatCxR &pMat)
 		{
 			for (int i = 0; i < C; i++)
 			{
-				values[i] += matrix[i];
+				mValues[i] += pMat[i];
 			}
 
 			return *this;
 		}
 
-		MatCxR &operator-=(const MatCxR &matrix)
+		MatCxR &operator-=(const MatCxR &pMat)
 		{
 			for (int i = 0; i < C; i++)
 			{
-				values[i] -= matrix[i];
+				mValues[i] -= pMat[i];
 			}
 
 			return *this;
 		}
 
-		MatCxR &operator*=(const T scalar)
+		MatCxR &operator*=(const T pVal)
 		{
 			for (int i = 0; i < C; i++)
 			{
-				values[i] *= scalar;
+				mValues[i] *= pVal;
 			}
 
 			return *this;
 		}
 
-		MatCxR &operator/=(const T scalar)
+		MatCxR &operator/=(const T pVal)
 		{
 			for (int i = 0; i < C; i++)
 			{
-				values[i] /= scalar;
+				mValues[i] /= pVal;
 			}
 
 			return *this;
@@ -123,46 +123,46 @@ namespace Math
 
 		MatCxR operator-() const
 		{
-			MatCxR res;
+			MatCxR lRes;
 
 			for (int i = 0; i < C; i++)
 			{
-				res[i] = -values[i];
+				lRes[i] = -mValues[i];
 			}
 
-			return res;
+			return lRes;
 		}
 
 		// -- Binary operators --
 
-		MatCxR operator+(const MatCxR &matrix) const
+		MatCxR operator+(const MatCxR &pMat) const
 		{
-			MatCxR res;
+			MatCxR lRes;
 
 			for (int i = 0; i < C; i++)
 			{
-				res[i] = values[i] + matrix[i];
+				lRes[i] = mValues[i] + pMat[i];
 			}
 
-			return res;
+			return lRes;
 		}
 
-		MatCxR operator-(const MatCxR &matrix) const
+		MatCxR operator-(const MatCxR &pMat) const
 		{
-			MatCxR res;
+			MatCxR lRes;
 
 			for (int i = 0; i < C; i++)
 			{
-				res[i] = values[i] - matrix[i];
+				lRes[i] = mValues[i] - pMat[i];
 			}
 
-			return res;
+			return lRes;
 		}
 
 		template<unsigned int S>
-		Matrix<S, R, T, P> operator*(const Matrix<S, C, T, P> &matrix) const
+		Matrix<S, R, T, P> operator*(const Matrix<S, C, T, P> &lMat) const
 		{
-			Matrix<S, R, T, P> res;
+			Matrix<S, R, T, P> lRes;
 
 			for (int i = 0; i < S; i++)
 			{
@@ -170,45 +170,45 @@ namespace Math
 				{
 					for (int k = 0; k < C; k++)
 					{
-						res[i][j] += values[k][j] * matrix[i][k];
+						lRes[i][j] += mValues[k][j] * lMat[i][k];
 					}
 				}
 			}
 
-			return res;
+			return lRes;
 		}
 
-		MatCxR operator*(const T scalar) const
+		MatCxR operator*(const T pVal) const
 		{
-			MatCxR res;
+			MatCxR lRes;
 
 			for (int i = 0; i < C; i++)
 			{
-				res[i] = values[i] * scalar;
+				lRes[i] = mValues[i] * pVal;
 			}
 
-			return res;
+			return lRes;
 		}
 
-		MatCxR operator/(const T scalar) const
+		MatCxR operator/(const T pVal) const
 		{
-			MatCxR res;
+			MatCxR lRes;
 
 			for (int i = 0; i < C; i++)
 			{
-				res[i] = values[i] / scalar;
+				lRes[i] = mValues[i] / pVal;
 			}
 
-			return res;
+			return lRes;
 		}
 
 		// -- Boolean operators --
 
-		bool operator==(const MatCxR &matrix) const
+		bool operator==(const MatCxR &pMat) const
 		{
 			for (int i = 0; i < C; i++)
 			{
-				if (values[i] != matrix[i])
+				if (mValues[i] != pMat[i])
 				{
 					return false;
 				}
@@ -217,11 +217,11 @@ namespace Math
 			return true;
 		}
 
-		bool operator!=(const MatCxR &matrix) const
+		bool operator!=(const MatCxR &pMat) const
 		{
 			for (int i = 0; i < C; i++)
 			{
-				if (values[i] == matrix[i])
+				if (mValues[i] == pMat[i])
 				{
 					return false;
 				}
@@ -232,60 +232,48 @@ namespace Math
 
 		// -- Stream operators --
 
-		friend std::ostream &operator<<(std::ostream &ostream, const MatCxR &matrix)
+		friend std::ostream &operator<<(std::ostream &pOStream, const MatCxR &pMat)
 		{
 			for (int i = 0; i < C; i++)
 			{
 				for (int j = 0; j < R; j++)
 				{
-					ostream << matrix[i][j] << (j < R - 1 ? ',' : '\n');
+					pOStream << pMat[i][j] << (j < R - 1 ? ',' : '\n');
 				}
 			}
 
-			return ostream;
+			return pOStream;
 		}
 
 		// -- Getters --
 		MatTranspose Transposed() const
 		{
-			MatTranspose res;
+			MatTranspose lRes;
 
 			for (int i = 0; i < C; i++)
 			{
 				for (int j = 0; j < R; j++)
 				{
-					res[j][i] = values[i][j];
+					lRes[j][i] = mValues[i][j];
 				}
 			}
 
-			return res;
+			return lRes;
 		}
 	};
 
 	typedef Matrix<1, 1, float, float> Matrix1x1;
-	typedef Matrix<2, 2, float, float> Matrix2;
 	typedef Matrix<1, 2, float, float> Matrix1x2;
 	typedef Matrix<2, 1, float, float> Matrix2x1;
-	typedef Matrix<2, 2, float, float> Matrix2x2;
-	typedef Matrix<3, 3, float, float> Matrix3;
 	typedef Matrix<1, 3, float, float> Matrix1x3;
 	typedef Matrix<2, 3, float, float> Matrix2x3;
 	typedef Matrix<3, 1, float, float> Matrix3x1;
 	typedef Matrix<3, 2, float, float> Matrix3x2;
-	typedef Matrix<3, 3, float, float> Matrix3x3;
-	typedef Matrix<4, 4, float, float> Matrix4;
 	typedef Matrix<1, 4, float, float> Matrix1x4;
 	typedef Matrix<2, 4, float, float> Matrix2x4;
 	typedef Matrix<3, 4, float, float> Matrix3x4;
 	typedef Matrix<4, 1, float, float> Matrix4x1;
 	typedef Matrix<4, 2, float, float> Matrix4x2;
 	typedef Matrix<4, 3, float, float> Matrix4x3;
-	typedef Matrix<4, 4, float, float> Matrix4x4;
-
-	template<unsigned int N, typename T, typename P>
-	using MatrixNxN = Matrix<N, N, T, P>;
-
-	template<unsigned int N, typename T, typename P>
-	using MatrixN = Matrix<N, N, T, P>;
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Math.hpp"
+#include <cmath>
 #include <ostream>
 
 namespace Math
@@ -10,7 +11,7 @@ namespace Math
 	{
 	private:
 		typedef Vector<S, T, P> Vec;
-		T fields[S];
+		T mValues[S];
 
 	public:
 		// -- Constructors --
@@ -19,103 +20,103 @@ namespace Math
 		{
 			for (int i = 0; i < S; i++)
 			{
-				fields[i] = T(0);
+				mValues[i] = T(0);
 			}
 		}
 
-		explicit Vector(const T value)
+		explicit Vector(const T pVal)
 		{
 			for (int i = 0; i < S; i++)
 			{
-				fields[i] = value;
+				mValues[i] = pVal;
 			}
 		}
 
-		Vector(const T fields[S])
+		Vector(const T pVals[S])
 		{
 			for (int i = 0; i < S; i++)
 			{
-				this->fields[i] = fields[i];
+				this->mValues[i] = pVals[i];
 			}
 		}
 
-		Vector(const Vector &vector)
+		Vector(const Vector &pVec)
 		{
 			for (int i = 0; i < S; i++)
 			{
-				fields[i] = vector[i];
+				mValues[i] = pVec[i];
 			}
 		}
 
 		// -- Accesses --
 
-		inline const T &operator[](const int index) const noexcept
+		inline const T &operator[](const int pIndex) const noexcept
 		{
-			return fields[index];
+			return mValues[pIndex];
 		}
 
-		inline T &operator[](const int index) noexcept
+		inline T &operator[](const int pIndex) noexcept
 		{
-			return fields[index];
+			return mValues[pIndex];
 		}
 
 		// -- Unary arithmetic operators --
 
-		Vec &operator+=(const Vec &vector)
+		Vec &operator+=(const Vec &pVec)
 		{
 			for (int i = 0; i < S; i++)
 			{
-				fields[i] += vector[i];
+				mValues[i] += pVec[i];
 			}
 
 			return *this;
 		}
 
-		Vec &operator-=(const Vec &vector)
+		Vec &operator-=(const Vec &pVec)
 		{
 			for (int i = 0; i < S; i++)
 			{
-				fields[i] -= vector[i];
+				mValues[i] -= pVec[i];
 			}
 
 			return *this;
 		}
 
-		Vec &operator*=(const Vec &vector)
+		Vec &operator*=(const Vec &pVec)
 		{
 			for (int i = 0; i < S; i++)
 			{
-				fields[i] *= vector[i];
+				mValues[i] *= pVec[i];
 			}
 
 			return *this;
 		}
 
-		Vec &operator*=(const T scalar)
+		Vec &operator*=(const T pVal)
 		{
 			for (int i = 0; i < S; i++)
 			{
-				fields[i] *= scalar;
+				mValues[i] *= pVal;
 			}
 
 			return *this;
 		}
 
-		Vec &operator/=(const Vec &vector)
+		Vec &operator/=(const Vec &pVec)
 		{
 			for (int i = 0; i < S; i++)
 			{
-				fields[i] /= vector[i];
+				mValues[i] /= pVec[i];
 			}
 
 			return *this;
 		}
 
-		Vec &operator/=(const T scalar)
+		Vec &operator/=(const T pVal)
 		{
 			for (int i = 0; i < S; i++)
 			{
-				fields[i] /= scalar;
+				mValues[i] /= pVal;
 			}
 
 			return *this;
@@ -130,97 +131,97 @@ namespace Math
 
 		Vec operator-() const
 		{
-			Vec res;
+			Vec lRes;
 
 			for (int i = 0; i < S; i++)
 			{
-				res[i] = -fields[i];
+				lRes[i] = -mValues[i];
 			}
 
-			return res;
+			return lRes;
 		}
 
 		// -- Binary operators --
 
-		Vec operator+(const Vec &vector) const
+		Vec operator+(const Vec &pVec) const
 		{
-			Vec res;
+			Vec lRes;
 
 			for (int i = 0; i < S; i++)
 			{
-				res[i] = fields[i] + vector[i];
+				lRes[i] = mValues[i] + pVec[i];
 			}
 
-			return res;
+			return lRes;
 		}
 
-		Vec operator-(const Vec &vector) const
+		Vec operator-(const Vec &pVec) const
 		{
-			Vec res;
+			Vec lRes;
 
 			for (int i = 0; i < S; i++)
 			{
-				res[i] = fields[i] - vector[i];
+				lRes[i] = mValues[i] - pVec[i];
 			}
 
-			return res;
+			return lRes;
 		}
 
-		Vec operator*(const Vec &vector) const
+		Vec operator*(const Vec &pVec) const
 		{
-			Vec res;
+			Vec lRes;
 
 			for (int i = 0; i < S; i++)
 			{
-				res[i] = fields[i] * vector[i];
+				lRes[i] = mValues[i] * pVec[i];
 			}
 
-			return res;
+			return lRes;
 		}
 
-		Vec operator*(const T scalar) const
+		Vec operator*(const T pVal) const
 		{
-			Vec res;
+			Vec lRes;
 
 			for (int i = 0; i < S; i++)
 			{
-				res[i] = fields[i] * scalar;
+				lRes[i] = mValues[i] * pVal;
 			}
 
-			return res;
+			return lRes;
 		}
 
-		Vec operator/(const Vec &vector) const
+		Vec operator/(const Vec &pVec) const
 		{
-			Vec res;
+			Vec lRes;
 
 			for (int i = 0; i < S; i++)
 			{
-				res[i] = fields[i] / vector[i];
+				lRes[i] = mValues[i] / pVec[i];
 			}
 
-			return res;
+			return lRes;
 		}
 
-		Vec operator/(const T scalar) const
+		Vec operator/(const T pVal) const
 		{
-			Vec res;
+			Vec lRes;
 
 			for (int i = 0; i < S; i++)
 			{
-				res[i] = fields[i] / scalar;
+				lRes[i] = mValues[i] / pVal;
 			}
 
-			return res;
+			return lRes;
 		}
 
 		// -- Boolean operators --
 
-		bool operator==(const Vec &vector) const
+		bool operator==(const Vec &pVec) const
 		{
 			for (int i = 0; i < S; i++)
 			{
-				if (fields[i] != vector[i])
+				if (mValues[i] != pVec[i])
 				{
 					return false;
 				}
@@ -229,11 +230,11 @@ namespace Math
 			return true;
 		}
 
-		bool operator!=(const Vec &vector) const
+		bool operator!=(const Vec &pVec) const
 		{
 			for (int i = 0; i < S; i++)
 			{
-				if (fields[i] == vector[i])
+				if (mValues[i] == pVec[i])
 				{
 					return false;
 				}
@@ -247,93 +248,98 @@ namespace Math
 		template<typename U, typename Q>
 		operator Vector<S, U, Q>() const
 		{
-			Vector<S, U, Q> res;
+			Vector<S, U, Q> lRes;
 
 			for (int i = 0; i < S; i++)
 			{
-				res[i] = (U)fields[i];
+				lRes[i] = (U)mValues[i];
 			}
 
-			return res;
+			return lRes;
 		}
 
 		// -- Stream operators --
 
-		friend std::ostream &operator<<(std::ostream &ostream, const Vec &vector)
+		friend std::ostream &operator<<(std::ostream &pOStream, const Vec &pVec)
 		{
 			for (int i = 0; i < S; i++)
 			{
-				ostream << vector[i];
+				pOStream << pVec[i];
 
 				if (i < S - 1)
 				{
-					ostream << ',';
+					pOStream << ',';
 				}
 			}
 
-			return ostream;
+			return pOStream;
 		}
 
 		// -- Static methods --
 
-		static Vec Lerp(const Vec &from, const Vec &to, const float t)
+		static Vec Lerp(const Vec &pFrom, const Vec &pTo, const float pTime)
 		{
-			return from + (to - from) * t;
+			return pFrom + (pTo - pFrom) * pTime;
 		}
 
-		static Vec LerpClamped(const Vec &from, const Vec &to, const float t)
+		static Vec LerpClamped(const Vec &pFrom, const Vec &pTo, const float pTime)
 		{
-			return from + (to - from) * Math::Clamp01(t);
+			return pFrom + (pTo - pFrom) * Math::Clamp01(pTime);
 		}
 
 		// -- Getters --
 
 		Vec Abs() const
 		{
-			Vec res;
+			Vec lRes;
 
 			for (int i = 0; i < S; i++)
 			{
-				res[i] = Math::Abs(fields[i]);
+				lRes[i] = Math::Abs(mValues[i]);
 			}
 
-			return res;
+			return lRes;
 		}
 
-		P Distance(const Vec &vector) const
+		P Angle(const Vec &pVec) const
 		{
-			P sqrdist = P(0);
-
-			for (int i = 0; i < S; i++)
-			{
-				sqrdist += (vector[i] - fields[i]) * (vector[i] - fields[i]);
-			}
-
-			return std::sqrt(sqrdist);
+			return std::acos(Math::Clamp(Dot(pVec), T(-1), T(1)));
 		}
 
-		P DistanceSquared(const Vec &vector) const
+		P Distance(const Vec &pVec) const
 		{
-			P sqrdist = P(0);
+			P lSqrdist = P(0);
 
 			for (int i = 0; i < S; i++)
 			{
-				sqrdist += (vector[i] - fields[i]) * (vector[i] - fields[i]);
+				lSqrdist += (pVec[i] - mValues[i]) * (pVec[i] - mValues[i]);
 			}
 
-			return sqrdist;
+			return std::sqrt(lSqrdist);
 		}
 
-		P Dot(const Vec &vector) const
+		P DistanceSquared(const Vec &pVec) const
 		{
-			P dot = P(0);
+			P lSqrdist = P(0);
 
 			for (int i = 0; i < S; i++)
 			{
-				dot = fields[i] * vector[i];
+				lSqrdist += (pVec[i] - mValues[i]) * (pVec[i] - mValues[i]);
 			}
 
-			return dot;
+			return lSqrdist;
+		}
+
+		P Dot(const Vec &pVec) const
+		{
+			P lDot = P(0);
+
+			for (int i = 0; i < S; i++)
+			{
+				lDot = mValues[i] * pVec[i];
+			}
+
+			return lDot;
 		}
 
 		inline bool IsNormalized() const
@@ -343,58 +349,58 @@ namespace Math
 
 		P Length() const
 		{
-			P sqrLength = P(0);
+			P lSqrLength = P(0);
 
 			for (int i = 0; i < S; i++)
 			{
-				sqrLength += fields[i] * fields[i];
+				lSqrLength += mValues[i] * mValues[i];
 			}
 
-			return std::sqrt(sqrLength);
+			return std::sqrt(lSqrLength);
 		}
 
 		P LengthSquared() const
 		{
-			P sqrLength = P(0);
+			P lSqrLength = P(0);
 
 			for (int i = 0; i < S; i++)
 			{
-				sqrLength += fields[i] * fields[i];
+				lSqrLength += mValues[i] * mValues[i];
 			}
 
-			return sqrLength;
+			return lSqrLength;
 		}
 
 		Vec Normalized() const
 		{
-			P length = LengthSquared();
+			P lLength = LengthSquared();
 
-			if (length == 0 || length == 1)
+			if (lLength == 0 || lLength == 1)
 			{
 				return *this;
 			}
 
-			Vec res;
-			length = std::sqrt(length);
+			Vec lRes;
+			lLength = std::sqrt(lLength);
 
 			for (int i = 0; i < S; i++)
 			{
-				res[i] = fields[i] / length;
+				lRes[i] = mValues[i] / lLength;
 			}
 
-			return res;
+			return lRes;
 		}
 
 		Vec Sign() const
 		{
-			Vec res;
+			Vec lRes;
 
 			for (int i = 0; i < S; i++)
 			{
-				res[i] = Math::Sign(fields[i]);
+				lRes[i] = Math::Sign(mValues[i]);
 			}
 
-			return res;
+			return lRes;
 		}
 
 		inline size_t SizeOfField() const
@@ -406,18 +412,18 @@ namespace Math
 
 		Vec &Normalize()
 		{
-			P length = LengthSquared();
+			P lLength = LengthSquared();
 
-			if (length == 0 || length == 1)
+			if (lLength == 0 || lLength == 1)
 			{
 				return *this;
 			}
 
-			length = std::sqrt(length);
+			lLength = std::sqrt(lLength);
 
 			for (int i = 0; i < S; i++)
 			{
-				fields[i] /= length;
+				mValues[i] /= lLength;
 			}
 
 			return *this;
