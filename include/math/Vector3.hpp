@@ -217,18 +217,25 @@ namespace Math
 
 		P Distance(const Vec &pVec) const
 		{
-			const P to_x = pVec.x - x;
-			const P to_y = pVec.y - y;
-			const P to_z = pVec.z - z;
-			return std::sqrt(to_x * to_x + to_y * to_y + to_z * to_z);
+			const P lToX = pVec.x - x;
+			const P lToY = pVec.y - y;
+			const P lToZ = pVec.z - z;
+			const P lSqr = lToX * lToX + lToY * lToY + lToZ * lToZ;
+
+			if (lSqr == P(0))
+			{
+				return P(0);
+			}
+
+			return std::sqrt(lSqr);
 		}
 
 		P DistanceSquared(const Vec &pVec) const
 		{
-			const P to_x = pVec.x - x;
-			const P to_y = pVec.y - y;
-			const P to_z = pVec.z - z;
-			return to_x * to_x + to_y * to_y + to_z * to_z;
+			const P lToX = pVec.x - x;
+			const P lToY = pVec.y - y;
+			const P lToZ = pVec.z - z;
+			return lToX * lToX + lToY * lToY + lToZ * lToZ;
 		}
 
 		T Dot(const Vec &pVec) const

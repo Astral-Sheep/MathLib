@@ -315,6 +315,11 @@ namespace Math
 				lSqrdist += (pVec[i] - mValues[i]) * (pVec[i] - mValues[i]);
 			}
 
+			if (lSqrdist == T(0))
+			{
+				return T(0);
+			}
+
 			return std::sqrt(lSqrdist);
 		}
 

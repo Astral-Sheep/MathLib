@@ -179,9 +179,16 @@ namespace Math
 
 		P Distance(const Vec &pVec) const
 		{
-			const P to_x = pVec.x - x;
-			const P to_y = pVec.y - y;
-			return std::sqrt(to_x * to_x - to_y * to_y);
+			const P lToX = pVec.x - x;
+			const P lToY = pVec.y - y;
+			const P lSqr = lToX * lToX + lToY * lToY;
+
+			if (lSqr == P(0))
+			{
+				return P(0);
+			}
+
+			return std::sqrt(lSqr);
 		}
 
 		P DistanceSquared(const Vec &pVec) const

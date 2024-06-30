@@ -191,7 +191,14 @@ namespace Math
 			const P lToY = pVec.y - y;
 			const P lToZ = pVec.z - z;
 			const P lToW = pVec.w - w;
-			return std::sqrt(lToX * lToX + lToY * lToY + lToZ * lToZ + lToW * lToW);
+			const P lSqr = lToX * lToX + lToY * lToY + lToZ * lToZ + lToW * lToW;
+
+			if (lSqr == P(0))
+			{
+				return P(0);
+			}
+
+			return std::sqrt(lSqr);
 		}
 
 		P DistanceSquared(const Vec &pVec) const
