@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core.h"
 #include "Math.hpp"
 #include "MatrixTransform.hpp"
 #include "Vector.hpp"
@@ -46,19 +47,19 @@ namespace Math
 
 		// -- Constructors --
 
-		Vector<3, T, P>()
+		Vector()
 			: x(T(0)), y(T(0)), z(T(0)) {}
 
-		explicit Vector<3, T, P>(const T pVal)
+		explicit Vector(const T pVal)
 			: x(pVal), y(pVal), z(pVal) {}
 
-		Vector<3, T, P>(const T pX, const T pY, const T pZ)
+		Vector(const T pX, const T pY, const T pZ)
 			: x(pX), y(pY), z(pZ) {}
 
-		Vector<3, T, P>(const T pVals[3])
+		Vector(const T pVals[3])
 			: x(pVals[0]), y(pVals[1]), z(pVals[2]) {}
 
-		Vector<3, T, P>(const Vec &pVec)
+		Vector(const Vec &pVec)
 			: x(pVec.x), y(pVec.y), z(pVec.z) {}
 
 		// -- Accesses --
@@ -132,39 +133,44 @@ namespace Math
 
 		inline Vec operator-() const
 		{
-			return Vector<3, T, P>(-x, -y, -z);
+			return Vec(-x, -y, -z);
 		}
 
 		// -- Binary operators --
 
 		inline Vec operator+(const Vec &pVec) const
 		{
-			return Vector<3, T, P>(x + pVec.x, y + pVec.y, z + pVec.z);
+			return Vec(x + pVec.x, y + pVec.y, z + pVec.z);
 		}
 
 		inline Vec operator-(const Vec &pVec) const
 		{
-			return Vector<3, T, P>(x - pVec.x, y - pVec.y, z - pVec.z);
+			return Vec(x - pVec.x, y - pVec.y, z - pVec.z);
 		}
 
 		inline Vec operator*(const Vec &pVec) const
 		{
-			return Vector<3, T, P>(x * pVec.x, y * pVec.y, z * pVec.z);
+			return Vec(x * pVec.x, y * pVec.y, z * pVec.z);
 		}
 
 		inline Vec operator*(const T pVal) const
 		{
-			return Vector<3, T, P>(x * pVal, y * pVal, z * pVal);
+			return Vec(x * pVal, y * pVal, z * pVal);
+		}
+
+		inline friend Vec operator*(const T pVal, const Vec &pVec)
+		{
+			return Vec(pVal * pVec.x, pVal * pVec.y, pVal * pVec.z);
 		}
 
 		inline Vec operator/(const Vec &pVec) const
 		{
-			return Vector<3, T, P>(x / pVec.x, y / pVec.y, z / pVec.z);
+			return Vec(x / pVec.x, y / pVec.y, z / pVec.z);
 		}
 
 		inline Vec operator/(const T pVal) const
 		{
-			return Vector<3, T, P>(x / pVal, y / pVal, z / pVal);
+			return Vec(x / pVal, y / pVal, z / pVal);
 		}
 
 		// -- Boolean operators --
@@ -189,7 +195,7 @@ namespace Math
 
 		// -- Stream operators --
 
-		friend std::ostream &operator<<(std::ostream &pOStream, const Vec &pVec)
+		inline friend std::ostream &operator<<(std::ostream &pOStream, const Vec &pVec)
 		{
 			return pOStream << "(" << pVec.x << ", " << pVec.y << ", " << pVec.z << ")";
 		}
@@ -198,7 +204,7 @@ namespace Math
 
 		Vec Abs() const
 		{
-			return Vector<3, T, P>(Math::Abs(x), Math::Abs(y), Math::Abs(z));
+			return Vec(Math::Abs(x), Math::Abs(y), Math::Abs(z));
 		}
 
 		P AngleTo(const Vec &pVec) const
@@ -208,7 +214,7 @@ namespace Math
 
 		Vec Cross(const Vec &pVec) const
 		{
-			return Vector<3, T, P>(
+			return Vec(
 				y * pVec.z - z * pVec.y,
 				z * pVec.x - x * pVec.z,
 				x * pVec.y - y * pVec.x
@@ -268,7 +274,7 @@ namespace Math
 			}
 
 			lLength = std::sqrt(lLength);
-			return Vector<3, T, P>(x / lLength, y / lLength, z / lLength);
+			return Vec(x / lLength, y / lLength, z / lLength);
 		}
 
 		Vec Rotated(const P pAngle, const Vector<3, P, P> &pNormal)
@@ -280,7 +286,7 @@ namespace Math
 
 		Vec Sign() const
 		{
-			return Vector<3, T, P>(Math::Sign(x), Math::Sign(y), Math::Sign(z));
+			return Vec(Math::Sign(x), Math::Sign(y), Math::Sign(z));
 		}
 
 		inline size_t SizeofField() const
@@ -333,56 +339,56 @@ namespace Math
 
 		// -- Static getters --
 
-		static Vec Zero()
+		inline static Vec Zero()
 		{
-			return Vector<3, T, P>(T(0), T(0), T(0));
+			return Vec(T(0), T(0), T(0));
 		}
 
-		static Vec One()
+		inline static Vec One()
 		{
-			return Vector<3, T, P>(T(1), T(1), T(1));
+			return Vec(T(1), T(1), T(1));
 		}
 
-		static Vec NegOne()
+		inline static Vec NegOne()
 		{
-			return Vector<3, T, P>(T(-1), T(-1), T(-1));
+			return Vec(T(-1), T(-1), T(-1));
 		}
 
-		static Vec Left()
+		inline static Vec Left()
 		{
-			return Vector<3, T, P>(T(-1), T(0), T(0));
+			return Vec(T(-1), T(0), T(0));
 		}
 
-		static Vec Right()
+		inline static Vec Right()
 		{
-			return Vector<3, T, P>(T(1), T(0), T(0));
+			return Vec(T(1), T(0), T(0));
 		}
 
-		static Vec Up()
+		inline static Vec Up()
 		{
-			return Vector<3, T, P>(T(0), T(1), T(0));
+			return Vec(T(0), T(1), T(0));
 		}
 
-		static Vec Down()
+		inline static Vec Down()
 		{
-			return Vector<3, T, P>(T(0), T(-1), T(0));
+			return Vec(T(0), T(-1), T(0));
 		}
 
-		static Vec Forward()
+		inline static Vec Forward()
 		{
-			return Vector<3, T, P>(T(0), T(0), T(1));
+			return Vec(T(0), T(0), T(1));
 		}
 
-		static Vec Backward()
+		inline static Vec Backward()
 		{
-			return Vector<3, T, P>(T(0), T(0), T(-1));
+			return Vec(T(0), T(0), T(-1));
 		}
 
 		// -- Static methods --
 
 		static Vec Lerp(const Vec &pFrom, const Vec &pTo, const P pTime)
 		{
-			return Vector<3, T, P>(
+			return Vec(
 				Math::Lerp(pFrom.x, pTo.x, pTime),
 				Math::Lerp(pFrom.y, pTo.y, pTime),
 				Math::Lerp(pFrom.z, pTo.z, pTime)
@@ -391,7 +397,7 @@ namespace Math
 
 		static Vec LerpClamped(const Vec &pFrom, const Vec &pTo, const P pTime)
 		{
-			return Vector<3, T, P>(
+			return Vec(
 				Math::LerpClamped(pFrom.x, pTo.x, pTime),
 				Math::LerpClamped(pFrom.y, pTo.y, pTime),
 				Math::LerpClamped(pFrom.z, pTo.z, pTime)
@@ -399,7 +405,10 @@ namespace Math
 		}
 	};
 
-	typedef Vector<3, float, float> Vector3;
+	template<typename T = float_type, typename P = T>
+	using Vector3 = Vector<3, T, P>;
+
+	typedef Vector<3, float, float> Vector3F;
 	typedef Vector<3, int, float> Vector3I;
 	typedef Vector<3, double, double> Vector3D;
 }

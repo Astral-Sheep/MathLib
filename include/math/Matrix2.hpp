@@ -17,19 +17,13 @@ namespace Math
 		// -- Constructors --
 
 		Matrix()
-			: mValues{ Col(), Col() }
-		{
-
-		}
+			: mValues{ Col(), Col() } {}
 
 		explicit Matrix(const T pVal)
 			: mValues{
 				Col(pVal, T(0)),
 				Col(T(0), pVal)
-			}
-		{
-
-		}
+			} {}
 
 		Matrix(
 			const T pX0, const T pX1,
@@ -38,37 +32,25 @@ namespace Math
 			: mValues{
 				Col(pX0, pX2),
 				Col(pX1, pX3)
-			}
-		{
-
-		}
+			} {}
 
 		Matrix(const T pVals[4])
 			: mValues{
 				Col(pVals[0], pVals[2]),
 				Col(pVals[1], pVals[3])
-			}
-		{
-
-		}
+			} {}
 
 		Matrix(const Col &pX0, const Col &pX1)
 			: mValues{
 				Col(pX0[0], pX1[0]),
 				Col(pX0[1], pX1[1])
-			}
-		{
-
-		}
+			} {}
 
 		Matrix(const Col pVals[2])
 			: mValues{
 				Col(pVals[0][0], pVals[1][0]),
 				Col(pVals[0][1], pVals[1][1])
-			}
-		{
-
-		}
+			} {}
 
 		Matrix(const Mat &pMat)
 			: mValues{ pMat[0], pMat[1] }
@@ -90,21 +72,21 @@ namespace Math
 
 		// -- Unary arithmetic operators --
 
-		Mat &operator+=(const Mat &pMat)
+		inline Mat &operator+=(const Mat &pMat)
 		{
 			mValues[0] += pMat[0];
 			mValues[1] += pMat[1];
 			return *this;
 		}
 
-		Mat &operator-=(const Mat &pMat)
+		inline Mat &operator-=(const Mat &pMat)
 		{
 			mValues[0] -= pMat[0];
 			mValues[1] -= pMat[1];
 			return *this;
 		}
 
-		Mat &operator*=(const Mat &pMat)
+		inline Mat &operator*=(const Mat &pMat)
 		{
 			const Mat lTemp(*this);
 			mValues[0][0] = lTemp[0][0] * pMat[0][0] + lTemp[1][0] * pMat[0][1];
@@ -114,19 +96,19 @@ namespace Math
 			return *this;
 		}
 
-		Mat &operator*=(const T pVal)
+		inline Mat &operator*=(const T pVal)
 		{
 			mValues[0] *= pVal;
 			mValues[1] *= pVal;
 			return *this;
 		}
 
-		Mat &operator/=(const Mat &pMat)
+		inline Mat &operator/=(const Mat &pMat)
 		{
 			return *this *= pMat.Inverted();
 		}
 
-		Mat &operator/=(const T pVal)
+		inline Mat &operator/=(const T pVal)
 		{
 			const T lInv = T(1) / pVal;
 			mValues[0] *= lInv;
@@ -136,12 +118,12 @@ namespace Math
 
 		// -- Unary operators --
 
-		Mat operator+() const
+		inline Mat operator+() const
 		{
 			return *this;
 		}
 
-		Mat operator-() const
+		inline Mat operator-() const
 		{
 			return Mat(
 				-mValues[0][0], -mValues[1][0],
@@ -151,7 +133,7 @@ namespace Math
 
 		// -- Binary operators --
 
-		Mat operator+(const Mat &pMat) const
+		inline Mat operator+(const Mat &pMat) const
 		{
 			return Mat(
 				mValues[0][0] + pMat[0][0], mValues[1][0] + pMat[1][0],
@@ -159,7 +141,7 @@ namespace Math
 			);
 		}
 
-		Mat operator-(const Mat &pMat) const
+		inline Mat operator-(const Mat &pMat) const
 		{
 			return Mat(
 				mValues[0][0] - pMat[0][0], mValues[1][0] - pMat[1][0],
@@ -167,7 +149,7 @@ namespace Math
 			);
 		}
 
-		Mat operator*(const Mat &pMat) const
+		inline Mat operator*(const Mat &pMat) const
 		{
 			return Mat(
 				mValues[0][0] * pMat[0][0] + mValues[1][0] * pMat[0][1],
@@ -177,7 +159,7 @@ namespace Math
 			);
 		}
 
-		Col operator*(const Col &pVec) const
+		inline Col operator*(const Col &pVec) const
 		{
 			return Col(
 				mValues[0][0] * pVec[0] + mValues[1][0] * pVec[1],
@@ -185,7 +167,7 @@ namespace Math
 			);
 		}
 
-		Mat operator*(const T pVal) const
+		inline Mat operator*(const T pVal) const
 		{
 			return Mat(
 				mValues[0][0] * pVal, mValues[1][0] * pVal,
@@ -259,12 +241,20 @@ namespace Math
 			return lRes;
 		}
 
-		Mat operator/(const Mat &pMat) const
+		inline friend Mat operator*(const T pVal, const Mat &pMat)
+		{
+			return Mat(
+				pVal * pMat[0][0], pVal * pMat[1][0],
+				pVal * pMat[0][1], pVal * pMat[1][1]
+			);
+		}
+
+		inline Mat operator/(const Mat &pMat) const
 		{
 			return *this * pMat.Inverted();
 		}
 
-		Mat operator/(const T pVal) const
+		inline Mat operator/(const T pVal) const
 		{
 			const T lInv = T(1) / pVal;
 			return Mat(
@@ -275,12 +265,12 @@ namespace Math
 
 		// -- Boolean operators --
 
-		bool operator==(const Mat &pMat) const
+		inline bool operator==(const Mat &pMat) const
 		{
 			return mValues[0] == pMat[0] && mValues[1] == pMat[1];
 		}
 
-		bool operator!=(const Mat &mat) const
+		inline bool operator!=(const Mat &mat) const
 		{
 			return mValues[0] != mat[0] || mValues[1] != mat[1];
 		}
@@ -288,7 +278,7 @@ namespace Math
 		// -- Convertion operators --
 
 		template<typename U, typename Q>
-		operator Matrix<2, 2, U, Q>() const
+		inline operator Matrix<2, 2, U, Q>() const
 		{
 			return Matrix<2, 2, U, Q>(
 				(U)mValues[0][0], (U)mValues[1][0],
@@ -298,7 +288,7 @@ namespace Math
 
 		// -- Stream operators --
 
-		friend std::ostream &operator<<(std::ostream &lOStream, const Mat &pMat)
+		inline friend std::ostream &operator<<(std::ostream &lOStream, const Mat &pMat)
 		{
 			return lOStream	<< pMat[0][0] << ',' << pMat[1][0] << '\n'
 							<< pMat[0][1] << ',' << pMat[1][1] << '\n';
@@ -358,13 +348,13 @@ namespace Math
 
 		// -- Static getters --
 
-		static inline Mat Identity()
+		inline static Mat Identity()
 		{
 			return Mat(T(1));
 		}
 	};
 
-	typedef Matrix<2, 2, float, float> Matrix2;
-	typedef Matrix<2, 2, float, float> Matrix2x2;
+	typedef Matrix<2, 2, float_type, float_type> Matrix2;
+	typedef Matrix<2, 2, float_type, float_type> Matrix2x2;
 }
 

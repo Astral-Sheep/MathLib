@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core.h"
 #include "Vector.hpp"
 
 namespace Math
@@ -42,7 +43,7 @@ namespace Math
 		{
 			for (int i = 0; i < C; i++)
 			{
-				this->mValues[i] = pVals[i];
+				mValues[i] = pVals[i];
 			}
 		}
 
@@ -52,7 +53,7 @@ namespace Math
 			{
 				for (int j = 0; j < R; j++)
 				{
-					this->mValues[i][j] = pVals[i * R + C];
+					mValues[i][j] = pVals[i * R + C];
 				}
 			}
 		}
@@ -121,6 +122,11 @@ namespace Math
 
 		// -- Unary operators --
 
+		MatCxR operator+() const
+		{
+			return *this;
+		}
+
 		MatCxR operator-() const
 		{
 			MatCxR lRes;
@@ -185,6 +191,18 @@ namespace Math
 			for (int i = 0; i < C; i++)
 			{
 				lRes[i] = mValues[i] * pVal;
+			}
+
+			return lRes;
+		}
+
+		friend MatCxR operator*(const T pVal, const MatCxR &pMat)
+		{
+			MatCxR lRes;
+
+			for (int i = 0; i < C; i++)
+			{
+				lRes[i] = pVal * pMat[i];
 			}
 
 			return lRes;
@@ -262,18 +280,18 @@ namespace Math
 		}
 	};
 
-	typedef Matrix<1, 1, float, float> Matrix1x1;
-	typedef Matrix<1, 2, float, float> Matrix1x2;
-	typedef Matrix<2, 1, float, float> Matrix2x1;
-	typedef Matrix<1, 3, float, float> Matrix1x3;
-	typedef Matrix<2, 3, float, float> Matrix2x3;
-	typedef Matrix<3, 1, float, float> Matrix3x1;
-	typedef Matrix<3, 2, float, float> Matrix3x2;
-	typedef Matrix<1, 4, float, float> Matrix1x4;
-	typedef Matrix<2, 4, float, float> Matrix2x4;
-	typedef Matrix<3, 4, float, float> Matrix3x4;
-	typedef Matrix<4, 1, float, float> Matrix4x1;
-	typedef Matrix<4, 2, float, float> Matrix4x2;
-	typedef Matrix<4, 3, float, float> Matrix4x3;
+	typedef Matrix<1, 1, float_type, float_type> Matrix1x1;
+	typedef Matrix<1, 2, float_type, float_type> Matrix1x2;
+	typedef Matrix<2, 1, float_type, float_type> Matrix2x1;
+	typedef Matrix<1, 3, float_type, float_type> Matrix1x3;
+	typedef Matrix<2, 3, float_type, float_type> Matrix2x3;
+	typedef Matrix<3, 1, float_type, float_type> Matrix3x1;
+	typedef Matrix<3, 2, float_type, float_type> Matrix3x2;
+	typedef Matrix<1, 4, float_type, float_type> Matrix1x4;
+	typedef Matrix<2, 4, float_type, float_type> Matrix2x4;
+	typedef Matrix<3, 4, float_type, float_type> Matrix3x4;
+	typedef Matrix<4, 1, float_type, float_type> Matrix4x1;
+	typedef Matrix<4, 2, float_type, float_type> Matrix4x2;
+	typedef Matrix<4, 3, float_type, float_type> Matrix4x3;
 }
 

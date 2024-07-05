@@ -18,15 +18,15 @@ namespace Math
 
 		// -- Constructors --
 
-		QuaternionT<T, P>() : w(T(0)), x(T(0)), y(T(0)), z(T(0)) {}
+		QuaternionT() : w(T(0)), x(T(0)), y(T(0)), z(T(0)) {}
 
-		QuaternionT<T, P>(const T pW, const T pX, const T pY, const T pZ)
+		QuaternionT(const T pW, const T pX, const T pY, const T pZ)
 			: w(pW), x(pX), y(pY), z(pZ) {}
 
-		QuaternionT<T, P>(const Vector<3, T, P> &pVec, const T pScalar)
+		QuaternionT(const Vector<3, T, P> &pVec, const T pScalar)
 			: w(pScalar), x(pVec.x), y(pVec.y), z(pVec.z) {}
 
-		QuaternionT<T, P>(const Quat &pQuat)
+		QuaternionT(const Quat &pQuat)
 			: w(pQuat.w), x(pQuat.x), y(pQuat.y), z(pQuat.z) {}
 
 		// -- Getters --
@@ -214,7 +214,7 @@ namespace Math
 			);
 		}
 
-		Vector<3, T, P> operator*(const Vector<3, T, P> &pVec) const
+		inline Vector<3, T, P> operator*(const Vector<3, T, P> &pVec) const
 		{
 			return Vector<3, T, P>(
 				(T(1) - T(2) * y * y - T(2) * z * z) * pVec[0] + T(2) * (x * y + w * z) * pVec[1] + T(2) * (x * z - w * y) * pVec[2],
@@ -230,6 +230,16 @@ namespace Math
 				x * pVal,
 				y * pVal,
 				z * pVal
+			);
+		}
+
+		inline friend Quat operator*(const T pVal, const Quat &pQuat)
+		{
+			return Quat(
+				pVal * pQuat.w,
+				pVal * pQuat.x,
+				pVal * pQuat.y,
+				pVal * pQuat.z
 			);
 		}
 

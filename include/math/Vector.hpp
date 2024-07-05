@@ -36,11 +36,11 @@ namespace Math
 		{
 			for (int i = 0; i < S; i++)
 			{
-				this->mValues[i] = pVals[i];
+				mValues[i] = pVals[i];
 			}
 		}
 
-		Vector(const Vector &pVec)
+		Vector(const Vec &pVec)
 		{
 			for (int i = 0; i < S; i++)
 			{
@@ -186,6 +186,18 @@ namespace Math
 			for (int i = 0; i < S; i++)
 			{
 				lRes[i] = mValues[i] * pVal;
+			}
+
+			return lRes;
+		}
+
+		friend Vec operator*(const T pVal, const Vec &pVec)
+		{
+			Vec lRes;
+
+			for (int i = 0; i < S; i++)
+			{
+				lRes[i] = pVal * pVec[i];
 			}
 
 			return lRes;

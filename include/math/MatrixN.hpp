@@ -211,6 +211,11 @@ namespace Math
 			CONST_OPERATOR(mValues[i][j] * pVal)
 		}
 
+		friend Mat operator*(const T pVal, const Mat &pMat)
+		{
+			CONST_OPERATOR(pVal * pMat[i][j])
+		}
+
 		template<unsigned int S>
 		Matrix<S, N, T, P> operator*(const Matrix<S, N, T, P> &pMat) const
 		{
@@ -474,10 +479,11 @@ namespace Math
 
 		// -- Static getters --
 
-		static inline Mat Identity()
+		inline static Mat Identity()
 		{
 			return Mat(T(1));
 		}
+
 #undef OPERATOR
 #undef CONST_OPERATOR
 #undef BOOL_OPERATOR

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core.h"
 #include "Vector3.hpp"
 #include "Matrix.hpp"
 
@@ -17,20 +18,14 @@ namespace Math
 		// -- Constructors --
 
 		Matrix()
-			: mValues{ Col(), Col(), Col() }
-		{
-
-		}
+			: mValues{ Col(), Col(), Col() } {}
 
 		explicit Matrix(const T pVal)
 			: mValues{
 				Col(pVal, T(0), T(0)),
 				Col(T(0), pVal, T(0)),
 				Col(T(0), T(0), pVal)
-			}
-		{
-
-		}
+			} {}
 
 		Matrix(
 			const T pX0, const T pX1, const T pX2,
@@ -41,46 +36,31 @@ namespace Math
 				Col(pX0, pX3, pX6),
 				Col(pX1, pX4, pX7),
 				Col(pX2, pX5, pX8)
-			}
-		{
-
-		}
+			} {}
 
 		Matrix(const T pVals[9])
 			: mValues{
 				Col(pVals[0], pVals[3], pVals[6]),
 				Col(pVals[1], pVals[4], pVals[7]),
 				Col(pVals[2], pVals[5], pVals[8])
-			}
-		{
-
-		}
+			} {}
 
 		Matrix(const Col &pX0, const Col &pX1, const Col &pX2)
 			: mValues{
 				Col(pX0[0], pX1[0], pX2[0]),
 				Col(pX0[1], pX1[1], pX2[1]),
 				Col(pX0[2], pX1[2], pX2[2])
-			}
-		{
-
-		}
+			} {}
 
 		Matrix(const Col pVals[3])
 			: mValues{
 				Col(pVals[0][0], pVals[1][0], pVals[2][0]),
 				Col(pVals[0][1], pVals[1][1], pVals[2][1]),
 				Col(pVals[0][2], pVals[1][2], pVals[2][2])
-			}
-		{
-
-		}
+			} {}
 
 		Matrix(const Mat &pMat)
-			: mValues{ pMat[0], pMat[1], pMat[2] }
-		{
-
-		}
+			: mValues{ pMat[0], pMat[1], pMat[2] } {}
 
 		// -- Accesses --
 
@@ -96,7 +76,7 @@ namespace Math
 
 		// -- Unary arithmetic operators --
 
-		Mat &operator+=(const Mat &pMat)
+		inline Mat &operator+=(const Mat &pMat)
 		{
 			mValues[0] += pMat[0];
 			mValues[1] += pMat[1];
@@ -104,7 +84,7 @@ namespace Math
 			return *this;
 		}
 
-		Mat &operator-=(const Mat &pMat)
+		inline Mat &operator-=(const Mat &pMat)
 		{
 			mValues[0] -= pMat[0];
 			mValues[1] -= pMat[1];
@@ -112,7 +92,7 @@ namespace Math
 			return *this;
 		}
 
-		Mat &operator*=(const Mat &pMat)
+		inline Mat &operator*=(const Mat &pMat)
 		{
 			const Mat lTemp(*this);
 			mValues[0][0] = lTemp[0][0] * pMat[0][0] + lTemp[1][0] * pMat[0][1] + lTemp[2][0] * pMat[0][2];
@@ -129,7 +109,7 @@ namespace Math
 			return *this;
 		}
 
-		Mat &operator*=(const T pVal)
+		inline Mat &operator*=(const T pVal)
 		{
 			mValues[0] *= pVal;
 			mValues[1] *= pVal;
@@ -137,12 +117,12 @@ namespace Math
 			return *this;
 		}
 
-		Mat &operator/=(const Mat &pMat)
+		inline Mat &operator/=(const Mat &pMat)
 		{
 			return *this *= pMat.Inverted();
 		}
 
-		Mat &operator/=(const T pVal)
+		inline Mat &operator/=(const T pVal)
 		{
 			const T lInv = T(1) / pVal;
 			mValues[0] *= lInv;
@@ -153,12 +133,12 @@ namespace Math
 
 		// -- Unary operators --
 
-		Mat operator+() const
+		inline Mat operator+() const
 		{
 			return *this;
 		}
 
-		Mat operator-() const
+		inline Mat operator-() const
 		{
 			return Mat(
 				-mValues[0][0], -mValues[1][0], -mValues[2][0],
@@ -169,7 +149,7 @@ namespace Math
 
 		// -- Binary operators --
 
-		Mat operator+(const Mat &pMat) const
+		inline Mat operator+(const Mat &pMat) const
 		{
 			return Mat(
 				mValues[0][0] + pMat[0][0], mValues[1][0] + pMat[1][0], mValues[2][0] + pMat[2][0],
@@ -178,7 +158,7 @@ namespace Math
 			);
 		}
 
-		Mat operator-(const Mat &pMat) const
+		inline Mat operator-(const Mat &pMat) const
 		{
 			return Mat(
 				mValues[0][0] - pMat[0][0], mValues[1][0] - pMat[1][0], mValues[2][0] - pMat[2][0],
@@ -187,7 +167,7 @@ namespace Math
 			);
 		}
 
-		Mat operator*(const Mat &pMat) const
+		inline Mat operator*(const Mat &pMat) const
 		{
 			return Mat(
 				mValues[0][0] * pMat[0][0] + mValues[1][0] * pMat[0][1] + mValues[2][0] * pMat[0][2],
@@ -204,7 +184,7 @@ namespace Math
 			);
 		}
 
-		Col operator*(const Col &pVec) const
+		inline Col operator*(const Col &pVec) const
 		{
 			return Col(
 				mValues[0][0] * pVec.x + mValues[1][0] * pVec.y + mValues[2][0] * pVec.z,
@@ -213,12 +193,21 @@ namespace Math
 			);
 		}
 
-		Mat operator*(const T pVal) const
+		inline Mat operator*(const T pVal) const
 		{
 			return Mat(
 				mValues[0][0] * pVal, mValues[1][0] * pVal, mValues[2][0] * pVal,
 				mValues[0][1] * pVal, mValues[1][1] * pVal, mValues[2][1] * pVal,
 				mValues[0][2] * pVal, mValues[1][2] * pVal, mValues[2][2] * pVal
+			);
+		}
+
+		inline friend Mat operator*(const T pVal, const Mat &pMat)
+		{
+			return Mat(
+				pVal * pMat[0][0], pVal * pMat[1][0], pVal * pMat[2][0],
+				pVal * pMat[0][1], pVal * pMat[1][1], pVal * pMat[2][1],
+				pVal * pMat[0][2], pVal * pMat[1][2], pVal * pMat[2][2]
 			);
 		}
 
@@ -292,12 +281,12 @@ namespace Math
 			return lRes;
 		}
 
-		Mat operator/(const Mat &pMat) const
+		inline Mat operator/(const Mat &pMat) const
 		{
 			return *this * pMat.Inverted();
 		}
 
-		Mat operator/(const T pVal) const
+		inline Mat operator/(const T pVal) const
 		{
 			const T lInv = T(1) / pVal;
 			return Mat(
@@ -309,12 +298,12 @@ namespace Math
 
 		// -- Boolean operators --
 
-		bool operator==(const Mat &pMat) const
+		inline bool operator==(const Mat &pMat) const
 		{
 			return mValues[0] == pMat[0] && mValues[1] == pMat[1] && mValues[2] == pMat[2];
 		}
 
-		bool operator!=(const Mat &pMat) const
+		inline bool operator!=(const Mat &pMat) const
 		{
 			return mValues[0] != pMat[0] || mValues[1] != pMat[1] || mValues[2] != pMat[2];
 		}
@@ -322,7 +311,7 @@ namespace Math
 		// -- Convertion operators --
 
 		template<typename U, typename Q>
-		operator Matrix<3, 3, U, Q>() const
+		inline operator Matrix<3, 3, U, Q>() const
 		{
 			return Matrix<3, 3, U, Q>(
 				(U)mValues[0][0], (U)mValues[1][0], (U)mValues[2][0],
@@ -333,7 +322,7 @@ namespace Math
 
 		// -- Stream operators --
 
-		friend std::ostream &operator<<(std::ostream &pOStream, const Mat &pMat)
+		inline friend std::ostream &operator<<(std::ostream &pOStream, const Mat &pMat)
 		{
 			return pOStream	<< pMat[0][0] << ',' << pMat[1][0] << ',' << pMat[2][0] << '\n'
 							<< pMat[0][1] << ',' << pMat[1][1] << ',' << pMat[2][1] << '\n'
@@ -424,13 +413,13 @@ namespace Math
 
 		// -- Static getters --
 
-		static inline Mat Identity()
+		inline static Mat Identity()
 		{
 			return Mat(T(1));
 		}
 	};
 
-	typedef Matrix<3, 3, float, float> Matrix3;
-	typedef Matrix<3, 3, float, float> Matrix3x3;
+	typedef Matrix<3, 3, float_type, float_type> Matrix3;
+	typedef Matrix<3, 3, float_type, float_type> Matrix3x3;
 }
 
