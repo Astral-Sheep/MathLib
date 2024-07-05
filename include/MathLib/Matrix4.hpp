@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core.h"
 #include "Vector4.hpp"
 #include "Matrix.hpp"
 
@@ -646,7 +647,7 @@ namespace Math
 		}
 	};
 
-	typedef Matrix<4, 4, float, float> Matrix4;
-	typedef Matrix<4, 4, float, float> Matrix4x4;
+	typedef Matrix<4, 4, float_type, float_type> Matrix4;
+	typedef Matrix<4, 4, float_type, float_type> Matrix4x4;
 }
 

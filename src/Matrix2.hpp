@@ -354,7 +354,7 @@ namespace Math
 		}
 	};
 
-	typedef Matrix<2, 2, float, float> Matrix2;
-	typedef Matrix<2, 2, float, float> Matrix2x2;
+	typedef Matrix<2, 2, float_type, float_type> Matrix2;
+	typedef Matrix<2, 2, float_type, float_type> Matrix2x2;
 }
 

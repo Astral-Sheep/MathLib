@@ -8,3 +8,9 @@
 	#define MATHLIB
 #endif
 
+#ifdef HIGH_PRECISION
+typedef double float_type;
+#else
+typedef float float_type;
+#endif
+

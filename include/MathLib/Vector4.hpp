@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core.h"
 #include "Math.hpp"
 #include "Vector.hpp"
 
@@ -357,7 +358,10 @@ namespace Math
 		}
 	};
 
-	typedef Vector<4, float, float> Vector4;
+	template<typename T = float_type, typename P = T>
+	using Vector4 = Vector<4, T, P>;
+
+	typedef Vector<4, float, float> Vector4F;
 	typedef Vector<4, int, float> Vector4I;
 	typedef Vector<4, double, double> Vector4D;
 }

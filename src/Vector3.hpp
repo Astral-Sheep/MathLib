@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core.h"
 #include "Math.hpp"
 #include "MatrixTransform.hpp"
 #include "Vector.hpp"
@@ -404,7 +405,10 @@ namespace Math
 		}
 	};
 
-	typedef Vector<3, float, float> Vector3;
+	template<typename T = float_type, typename P = T>
+	using Vector3 = Vector<3, T, P>;
+
+	typedef Vector<3, float, float> Vector3F;
 	typedef Vector<3, int, float> Vector3I;
 	typedef Vector<3, double, double> Vector3D;
 }

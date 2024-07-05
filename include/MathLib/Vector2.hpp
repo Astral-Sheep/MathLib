@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core.h"
 #include "Math.hpp"
 #include "Vector.hpp"
 #include <cmath>
@@ -338,7 +339,10 @@ namespace Math
 		}
 	};
 
-	typedef Vector<2, float, float> Vector2;
+	template<typename T = float_type, typename P = T>
+	using Vector2 = Vector<2, T, P>;
+
+	typedef Vector<2, float, float> Vector2F;
 	typedef Vector<2, int, float> Vector2I;
 	typedef Vector<2, double, double> Vector2D;
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core.h"
 #include "Vector3.hpp"
 #include "Matrix.hpp"
 
@@ -418,7 +419,7 @@ namespace Math
 		}
 	};
 
-	typedef Matrix<3, 3, float, float> Matrix3;
-	typedef Matrix<3, 3, float, float> Matrix3x3;
+	typedef Matrix<3, 3, float_type, float_type> Matrix3;
+	typedef Matrix<3, 3, float_type, float_type> Matrix3x3;
 }
 
