@@ -1,8 +1,6 @@
-.idea/
-.vs/
 .cache/
 bin/
-temp/
 build.ps1
+include.ps1
 compile_commands.json
 
