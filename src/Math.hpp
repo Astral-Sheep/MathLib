@@ -31,7 +31,7 @@ namespace Math
 			pLow -= pHigh;
 		}
 
-		return pLow >= pVal ? pLow : pVal >= pHigh ? pVal : pHigh;
+		return pLow >= pVal ? pLow : pVal <= pHigh ? pVal : pHigh;
 	}
 
 	/*
@@ -40,7 +40,7 @@ namespace Math
 	template<typename T>
 	T Clamp01(const T &pVal)
 	{
-		return T(0) >= pVal ? T(0) : pVal >= T(1) ? pVal : T(1);
+		return T(0) >= pVal ? T(0) : pVal <= T(1) ? pVal : T(1);
 	}
 
 	/*
